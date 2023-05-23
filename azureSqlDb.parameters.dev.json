@@ -12,7 +12,7 @@
         "value": "mango-service-productapidbserver1"
       },
       "sqlDBName": {
-        "value": "Mango.Service.ProductAPI_db"
+        "value": "Mango.Service.ProductAPI2_db"
       }
     }
 
