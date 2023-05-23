@@ -1,0 +1,79 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "administratorLogin": {
+            "type": "string",
+            "metadata": {
+                "description": "The administrator username of the SQL logical server."
+            }
+        },
+        "administratorLoginPassword": {
+            "type": "secureString",
+            "metadata": {
+                "description": "The administrator password of the SQL logical server."
+            }
+        },
+        "productApiDbServerName": {
+            "defaultValue": "mango-service-productapidbserver",
+            "type": "String"
+        },
+        "sqlDBName": {
+            "type": "string",
+            "defaultValue": "Mango.Service.ProductAPI_db",
+            "metadata": {
+                "description": "The name of the SQL Database."
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "name": "linkedTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                "relativePath": "azureSqlServer.json"
+                },
+                "parameters": {
+                    "administratorLogin": {
+                        "value": "[parameters('administratorLogin')]"
+                    },
+                    "administratorLoginPassword": {
+                        "value": "[parameters('administratorLoginPassword')]"
+                    },
+                    "productApiDbServerName": {
+                        "value": "[parameters('productApiDbServerName')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases",
+            "apiVersion": "2022-05-01-preview",
+            "name": "[format('{0}/{1}', parameters('productApiDbServerName'), parameters('sqlDBName'))]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('productApiDbServerName'))]"
+            ],
+            "sku": {
+                "name": "Basic",
+                "tier": "Basic",
+                "capacity": 5
+            },
+            "kind": "v12.0,user",
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "maxSizeBytes": 1073741824,
+                "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+                "zoneRedundant": false,
+                "readScale": "Disabled",
+                "requestedBackupStorageRedundancy": "Local",
+                "isLedgerOn": false,
+                "availabilityZone": "NoPreference"
+            }
+        }
+    ]
+}
