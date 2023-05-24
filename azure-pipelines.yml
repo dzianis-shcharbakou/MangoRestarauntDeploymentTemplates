@@ -22,7 +22,7 @@ steps:
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/mangoRestaurantTemplate.json'
     overrideParameters: |
       -administratorLogin $(administratorLogin)               
-      -administratorLoginPassword $(administratorLoginPassword)
+      -administratorLoginPassword $(env:administratorLoginPassword)
       -productApiDbServerName $(productApiDbServerName)
       -sqlDBName $(sqlDBName)
       -serverfarmsMangoPlanName $(serverfarmsMangoPlanName)
