@@ -29,14 +29,17 @@
     "variables": {},
     "resources": [
         {
-            "name": "linkedTemplate",
+            "name": "sqlServer",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                "relativePath": "azureSqlServer.json"
+                    "uri": "https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/azureSqlServer.json"
                 },
+                // "parametersLink": {
+                //     "uri": "https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/azureSqlDb.parameters.dev.json"
+                // },
                 "parameters": {
                     "administratorLogin": {
                         "value": "[parameters('administratorLogin')]"
