@@ -60,8 +60,8 @@
             "name": "[format('{0}/{1}', parameters('productApiDbServerName'), parameters('sqlDBName'))]",
             "location": "westeurope",
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'sqlServer')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('productApiDbServerName'))]"
+                "[resourceId('Microsoft.Resources/deployments', 'sqlServer')]"
+                // "[resourceId('Microsoft.Sql/servers', parameters('productApiDbServerName'))]"
             ],
             "sku": {
                 "name": "Basic",
