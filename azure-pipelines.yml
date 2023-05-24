@@ -19,10 +19,10 @@ steps:
     resourceGroupName: 'dev-template-test-rg'
     location: 'West Europe'
     templateLocation: 'URL of the file'
-    csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/mangoRestaurantTemplate.json'
+    csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/azuredeploy.json'
     overrideParameters: |
-      -administratorLogin $(administratorLogin)               
-      -administratorLoginPassword $(env:administratorLoginPassword)
+      -administratorLogin $(administratorLogin)
+      -administratorLoginPassword $(administratorLoginPassword)
       -productApiDbServerName $(productApiDbServerName)
       -sqlDBName $(sqlDBName)
       -serverfarmsMangoPlanName $(serverfarmsMangoPlanName)
