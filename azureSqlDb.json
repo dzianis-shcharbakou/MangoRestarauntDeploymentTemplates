@@ -42,10 +42,10 @@
                 //     "uri": "https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/azureSqlDb.parameters.dev.json"
                 // },
                 "parameters": {
-                    "administratorLogin": {
+                    "administratorLogin1": {
                         "value": "[parameters('administratorLogin')]"
                     },
-                    "administratorLoginPassword": {
+                    "administratorLoginPassword1": {
                         "value": "[parameters('administratorLoginPassword')]"
                     },
                     "productApiDbServerName": {
