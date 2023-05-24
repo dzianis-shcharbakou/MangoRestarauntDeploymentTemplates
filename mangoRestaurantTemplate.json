@@ -152,7 +152,7 @@
         },
         "parameters": {
           "storageAccountName": {
-            "value": "[parameters('storageAccountName')]"
+            "value": "[variables('storageAccountName')]"
           },
           "location": {
             "value": "[variables('location')]"
