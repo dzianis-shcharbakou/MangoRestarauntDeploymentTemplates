@@ -8,7 +8,6 @@
     },
     "location": {
         "type": "string",
-        "defaultValue": "westeurope",
         "metadata": {
             "description": "The storage account location."
         }
@@ -36,8 +35,6 @@
         "allowSharedKeyAccess": true,
         "networkAcls": {
           "bypass": "AzureServices",
-          "virtualNetworkRules": [],
-          "ipRules": [],
           "defaultAction": "Allow"
         },
         "supportsHttpsTrafficOnly": true,
