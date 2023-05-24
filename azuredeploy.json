@@ -39,10 +39,16 @@
       "metadata": {
         "description": "The storage account location."
       }
+    },
+    "storageAccountName": {
+      "type": "string",
+      "defaultValue": "[concat('product', uniqueString(resourceGroup().id))]",
+      "metadata": {
+        "description": "The storage account location."
+      }
     }
   },
   "variables": {
-     "storageAccountName": "[format('productImagesStore{0}', uniqueString(resourceGroup().id))]"
   },
   "resources": [
     {
@@ -147,7 +153,7 @@
         },
         "parameters": {
           "storageAccountName": {
-            "value": "[variables('storageAccountName')]"
+            "value": "[parameters('storageAccountName')]"
           },
           "location": {
             "value": "[parameters('location')]"
