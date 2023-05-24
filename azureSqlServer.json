@@ -31,8 +31,8 @@
                 "app": "productApi"
             },
             "properties": {
-                "administratorLogin": "[parameters('administratorLogin')]",
-                "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
+                "administratorLogin": "[parameters('administratorLogin1')]",
+                "administratorLoginPassword": "[parameters('administratorLoginPassword1')]",
                 "publicNetworkAccess": "Enabled"
             }
         }

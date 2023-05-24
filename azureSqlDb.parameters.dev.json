@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "administratorLogin": {
-        "value": "GEN-UNIQUE-10"
+        "value": null
       },
       "administratorLoginPassword": {
-        "value": "GEN-PASSWORD"
+        "value": null
       },
       "productApiDbServerName": {
         "value": "mango-service-productapidbserver1"
