@@ -17,6 +17,13 @@
         "productApiDbServerName": {
             "defaultValue": "mango-service-productapidbserver",
             "type": "String"
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "The storage account location."
+            }
         }
     },
     "variables": {},
@@ -25,7 +32,7 @@
             "type": "Microsoft.Sql/servers",
             "apiVersion": "2022-05-01-preview",
             "name": "[parameters('productApiDbServerName')]",
-            "location": "westeurope",
+            "location": "[parameters('location')]",
             "tags": {
                 "env": "dev",
                 "app": "productApi"

@@ -9,6 +9,13 @@
         "sitesMangoProductApiDevName": {
             "defaultValue": "mango-ProductApi-dev",
             "type": "String"
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "The storage account location."
+            }
         }
   },
   "variables": {
@@ -18,7 +25,7 @@
       "apiVersion": "2022-03-01",
       "name": "[parameters('sitesMangoProductApiDevName')]",
       "type": "Microsoft.Web/sites",
-      "location": "West Europe",
+      "location": "[parameters('location')]",
       "kind":"app",
       "tags": {
         "env": "dev",
