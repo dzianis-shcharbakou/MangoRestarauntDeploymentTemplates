@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "serverfarmsMangoPlanName": {
+      "defaultValue": "mango-plan",
+      "type": "String"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "apiVersion": "2022-03-01",
+      "name": "[parameters('serverfarmsMangoPlanName')]",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "West Europe",
+      "kind": "app",
+      "tags": {
+        "env": "dev"
+      },
+      "properties": {
+        "perSiteScaling": false,
+        "elasticScaleEnabled": false,
+        "maximumElasticWorkerCount": 1,
+        "isSpot": false,
+        "reserved": false,
+        "isXenon": false,
+        "hyperV": false,
+        "targetWorkerCount": 0,
+        "targetWorkerSizeId": 0,
+        "zoneRedundant": false
+      },
+      "sku": {
+        "name": "F1",
+        "tier": "Free",
+        "size": "F1",
+        "family": "F",
+        "capacity": 0
+      }
+    }
+  ]
+}
+

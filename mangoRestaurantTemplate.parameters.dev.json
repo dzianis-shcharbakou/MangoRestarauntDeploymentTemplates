@@ -13,15 +13,12 @@
       },
       "sqlDBName": {
         "value": "Mango.Service.ProductAPI2_db"
+      },
+      "serverfarmsMangoPlanName": {
+        "value": "mango-plan"
+      },
+      "sitesMangoProductApiDevName": {
+        "value": "mango-ProductApi-dev2"
       }
     }
-
-
-
-
-
-
-
-
-
 }
