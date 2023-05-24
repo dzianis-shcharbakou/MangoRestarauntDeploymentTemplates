@@ -27,5 +27,6 @@ steps:
       -sqlDBName "$(sqlDBName)"
       -serverfarmsMangoPlanName "$(serverfarmsMangoPlanName)"
       -sitesMangoProductApiDevName "$(sitesMangoProductApiDevName)"
+      -location "westeurope"
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
