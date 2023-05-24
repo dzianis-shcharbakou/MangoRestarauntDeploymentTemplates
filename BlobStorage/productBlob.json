@@ -3,12 +3,12 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "storageAccountName": {
-      "defaultValue": "[format('productImagesStore{0}', uniqueString(resourceGroup().id))]",
+      "defaultValue": "productImagesStore",
       "type": "String"
     },
     "location": {
         "type": "string",
-        "defaultValue": "[resourceGroup().location]",
+        "defaultValue": "westeurope",
         "metadata": {
             "description": "The storage account location."
         }
