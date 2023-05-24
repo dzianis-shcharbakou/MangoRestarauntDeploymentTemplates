@@ -28,11 +28,11 @@ steps:
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/mangoRestaurantTemplate.json'
     overrideParameters: |
-      -administratorLogin "dshcharbakou"               
-      -administratorLoginPassword "7752393LoL!"
-      -productApiDbServerName "mango-service-productapidbserver1"
-      -sqlDBName "Mango.Service.ProductAPI2_db"
-      -serverfarmsMangoPlanName "mango-plan"
-      -sitesMangoProductApiDevName "mango-ProductApi-dev2"
+      -administratorLogin $(administratorLogin)               
+      -administratorLoginPassword $(administratorLoginPassword)
+      -productApiDbServerName $(productApiDbServerName)
+      -sqlDBName $(sqlDBName)
+      -serverfarmsMangoPlanName $(serverfarmsMangoPlanName)
+      -sitesMangoProductApiDevName $(sitesMangoProductApiDevName)
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
