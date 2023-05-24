@@ -1,0 +1,31 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'templatesRepository'
+    subscriptionId: '3b17d851-4b89-4b9f-b4f4-99ccab0432be'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'dev-template-test-rg'
+    location: 'West Europe'
+    templateLocation: 'URL of the file'
+    csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/mangoRestaurantTemplate.json'
+    overrideParameters: |
+      -administratorLogin $(administratorLogin)               
+      -administratorLoginPassword $(env:administratorLoginPassword)
+      -productApiDbServerName $(productApiDbServerName)
+      -sqlDBName $(sqlDBName)
+      -serverfarmsMangoPlanName $(serverfarmsMangoPlanName)
+      -sitesMangoProductApiDevName $(sitesMangoProductApiDevName)
+    deploymentMode: 'Incremental'
+    deploymentName: 'DeployMangoTemplates'
