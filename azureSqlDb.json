@@ -35,7 +35,8 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/azureSqlServer.json"
+                    // "uri": "https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/azureSqlServer.json"
+                    "relativePath": "./azureSqlServer.json"
                 },
                 // "parametersLink": {
                 //     "uri": "https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/azureSqlDb.parameters.dev.json"
