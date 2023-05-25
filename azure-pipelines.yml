@@ -21,12 +21,11 @@ steps:
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/azuredeploy.json'
     overrideParameters: |
-      -administratorLogin '$(administratorLogin)'
-      -administratorLoginPassword '$(administratorLoginPassword)'
-      -productApiDbServerName '$(productApiDbServerName)'
-      -sqlDBName '$(sqlDBName)'
-      -serverfarmsMangoPlanName '$(serverfarmsMangoPlanName)'
-      -sitesMangoProductApiDevName '$(sitesMangoProductApiDevName)'
-      -location 'westeurope'
+      -administratorLogin $(administratorLogin)
+      -administratorLoginPassword $(administratorLoginPassword)
+      -productApiDbServerName $(productApiDbServerName)
+      -sqlDBName $(sqlDBName)
+      -serverfarmsMangoPlanName $(serverfarmsMangoPlanName)
+      -sitesMangoProductApiDevName $(sitesMangoProductApiDevName)
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
