@@ -16,7 +16,7 @@
     },
     "productApiDbServerName": {
       "defaultValue": "mango-service-productapidbserver",
-      "type": "String"
+      "type": "string"
     },
     "sqlDBName": {
       "type": "string",
@@ -27,11 +27,11 @@
     },
     "serverfarmsMangoPlanName": {
         "defaultValue": "mango-plan",
-        "type": "String"
+        "type": "string"
     },
     "sitesMangoProductApiDevName": {
         "defaultValue": "mango-ProductApi-dev",
-        "type": "String"
+        "type": "string"
     },
     "location": {
       "type": "string",
@@ -47,8 +47,6 @@
         "description": "The storage account location."
       }
     }
-  },
-  "variables": {
   },
   "resources": [
     {

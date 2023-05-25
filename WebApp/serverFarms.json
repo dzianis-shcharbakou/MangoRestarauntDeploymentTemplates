@@ -4,7 +4,7 @@
   "parameters": {
     "serverfarmsMangoPlanName": {
       "defaultValue": "mango-plan",
-      "type": "String"
+      "type": "string"
     },
     "location": {
         "type": "string",
@@ -14,7 +14,6 @@
         }
     }
   },
-  "variables": {},
   "resources": [
     {
       "apiVersion": "2022-03-01",
