@@ -63,7 +63,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host "Blob Storage Name: $env:BLOBSTORAGENAME
+      Write-Host "Blob Storage Name: ${blobStorageName}
     pwsh: true
   name: 'UseBlobStorageName'
 - task: AzureFileCopy@5
@@ -71,5 +71,5 @@ steps:
     SourcePath: '11.jpg'
     azureSubscription: 'templatesRepository'
     Destination: 'AzureBlob'
-    storage: $env:BLOBSTORAGENAME
+    storage: ${blobStorageName}
     ContainerName: 'mango-product'
