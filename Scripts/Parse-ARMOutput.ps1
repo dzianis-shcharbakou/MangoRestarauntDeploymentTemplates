@@ -7,5 +7,5 @@ $json = $ARMOutput | convertfrom-json
 #endregion
 
 #region Parse ARM Template Output
-Write-Output -InputObject ('Hello {0} {1}' -f $json.blobStorageName.value, $json.blobStorageNameOutput.value)
+Write-Output -InputObject ('Hello {0}' -f $json.blobStorageName.value)
 #endregion
