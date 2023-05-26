@@ -63,7 +63,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $json = ConvertFrom-Json -InputObject $(Parse-ARMOutput.outputs['ParseARMOutput']['stdout'])
+      $json = ConvertFrom-Json -InputObject $(ParseARMOutput.outputs['ParseARMOutput']['stdout'])
       Write-Host "Blob Storage Name: $($json.blobStorageName.value)"
     pwsh: true
   name: 'UseBlobStorageName'
