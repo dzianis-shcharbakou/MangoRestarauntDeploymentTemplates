@@ -69,7 +69,6 @@ steps:
     targetType: 'inline'
     script: |
       Write-Host "Blob Storage Name:" $(($blobStorageName).value)
-      Write-Host "Blob Storage Name:" $((blobStorageName).value)
       Write-Host "Blob Storage Name:" $($blobStorageName)
       Write-Host "Blob Storage Name:" $(blobStorageName)
   name: UseBlobStorageName
