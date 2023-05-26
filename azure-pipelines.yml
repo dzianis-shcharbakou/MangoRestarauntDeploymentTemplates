@@ -57,7 +57,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $outputsObject = $env:ARM_OUTPUTS | ConvertFrom-Json
+      $outputsObject = $env:ARMOUTPUTS | ConvertFrom-Json
       Write-Host "##vso[task.setvariable variable=someResourceUriPwsh]$($outputsObject.someResourceUri.value)"
       $env:PRODUCT_BLOB_STORAGE_NAME = (Get-AzResourceGroupDeployment `
       ResourceGroupName 'dev-template-test-rg' `
