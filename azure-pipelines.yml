@@ -23,6 +23,7 @@ steps:
     overrideParameters: '-administratorLogin $(administratorLogin) -administratorLoginPassword $(administratorLoginPassword) -productApiDbServerName $(productApiDbServerName) -sqlDBName $(sqlDBName) -serverfarmsMangoPlanName $(serverfarmsMangoPlanName) -sitesMangoProductApiDevName $(sitesMangoProductApiDevName)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
+    deploymentOutputs: 'armOutputs'
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
@@ -52,3 +53,19 @@ steps:
       InvokeGetFileRequest -GitFilePath "/ProductApiItems/14.jpg" -OutFilePath ".\14.jpg"
       
       ls $(Build.SourcesDirectory)
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      $outputsObject = ${env:ARMOUTPUTS} | ConvertFrom-Json
+      Write-Host "Output ARM:" $outputsObject
+      ${env:PRODUCTBLOBSTORAGENAME} = $outputsObject
+      Write-Host "##vso[task.setvariable variable=someResourceUriPwsh]$($outputsObject.blobStorageName.value)"
+    pwsh: true
+- task: AzureFileCopy@5
+  inputs:
+    SourcePath: '11.jpg'
+    azureSubscription: 'templatesRepository'
+    Destination: 'AzureBlob'
+    storage: $(productBlobStorageName)
+    ContainerName: 'mango-product'
