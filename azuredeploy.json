@@ -159,5 +159,11 @@
         }
       }
     }
-  ]
+  ],
+  "outputs": {
+    "blobStorageName": {
+      "type": "string",
+      "value": "[parameters('storageAccountName')]"
+    }
+  }
 }
