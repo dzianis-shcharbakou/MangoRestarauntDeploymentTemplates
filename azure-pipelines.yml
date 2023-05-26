@@ -63,8 +63,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $json = ConvertFrom-Json -InputObject $(ParseARMOutput.outputs['ParseARMOutput']['stdout'])
-      Write-Host "Blob Storage Name: $($json.blobStorageName.value)"
+      Write-Host "Blob Storage Name: $env:BLOBSTORAGENAME
     pwsh: true
   name: 'UseBlobStorageName'
 - task: AzureFileCopy@5
@@ -72,5 +71,5 @@ steps:
     SourcePath: '11.jpg'
     azureSubscription: 'templatesRepository'
     Destination: 'AzureBlob'
-    storage: $(blobStorageNameOutput)
+    storage: $env:BLOBSTORAGENAME
     ContainerName: 'mango-product'
