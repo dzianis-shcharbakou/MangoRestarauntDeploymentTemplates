@@ -57,15 +57,13 @@ steps:
   inputs:
     filePath: '$(System.DefaultWorkingDirectory)/Scripts/Parse-ARMOutput.ps1'
     arguments: '-ARMOutput ''$(armOutputs)'''
-    pwsh: true
-  name: 'ParseARMOutput'
+  name: ParseARMOutput
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host "Blob Storage Name: ${blobStorageName}
-    pwsh: true
-  name: 'UseBlobStorageName'
+      Write-Host "Blob Storage Name: $(blobStorageName)
+  name: UseBlobStorageName
 - task: AzureFileCopy@5
   inputs:
     SourcePath: '11.jpg'
