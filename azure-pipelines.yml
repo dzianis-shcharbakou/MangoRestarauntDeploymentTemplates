@@ -57,7 +57,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $outputsObject = $armOutputs | ConvertFrom-Json
+      $outputsObject = ${env:ARMOUTPUTS} | ConvertFrom-Json
       Write-Host "##vso[task.setvariable variable=someResourceUriPwsh]$($outputsObject.blobStorageName.value)"
     pwsh: true
 - task: AzureFileCopy@5
