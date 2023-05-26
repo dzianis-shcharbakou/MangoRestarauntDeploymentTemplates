@@ -62,7 +62,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host "Output ARM:" $(blobStorageNameOutput)
+      Write-Host "Output ARM:" $('$(blobStorageNameOutput)')
     pwsh: true
 - task: AzureFileCopy@5
   inputs:
