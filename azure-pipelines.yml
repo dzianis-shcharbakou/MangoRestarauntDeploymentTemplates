@@ -57,7 +57,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $json = $(armOutputs) | convertfrom-json
+      $json = '$(armOutputs)' | convertfrom-json
       Write-Host "##vso[task.setvariable variable=blobStorageName;]$json.blobStorageName.value"
   name: ParseARMOutput
 - task: PowerShell@2
