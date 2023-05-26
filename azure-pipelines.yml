@@ -52,3 +52,17 @@ steps:
       InvokeGetFileRequest -GitFilePath "/ProductApiItems/14.jpg" -OutFilePath ".\14.jpg"
       
       ls $(Build.SourcesDirectory)
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      $(productBlobStorageName) = (Get-AzResourceGroupDeployment `
+      ResourceGroupName 'dev-template-test-rg' `
+      Name 'DeployMangoTemplates').Outputs.blobStorageName.value
+- task: AzureFileCopy@5
+  inputs:
+    SourcePath: '11.jpg'
+    azureSubscription: 'templatesRepository'
+    Destination: 'AzureBlob'
+    storage: $(productBlobStorageName)
+    ContainerName: 'mango-product'
