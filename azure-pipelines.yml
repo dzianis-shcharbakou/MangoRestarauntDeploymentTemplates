@@ -63,7 +63,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host "Blob Storage Name: ${blobStorageName}
+      Write-Host "Blob Storage Name: ${env:BLOBSTORAGENAME}
     pwsh: true
   name: 'UseBlobStorageName'
 - task: AzureFileCopy@5
