@@ -37,13 +37,13 @@ steps:
           function InvokeGetFileRequest ($GitFilePath, $OutFilePath)
           {
               Write-Host "Download file" $GitFilePath "to" $OutFilePath
-          
+
               #$AzureDevOpsAuthenicationHeader = @{Authorization = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($token)")) }
               $uriOrganization = "https://dev.azure.com/$orgName/"
               $uriGetFile = $uriOrganization + "/LearnDevOps/_apis/git/repositories/$repoName/items?scopePath=$GitFilePath&download=true&api-version=6.1-preview.1"
-          
+
               Write-Host "Url:" $uriGetFile
-              Invoke-RestMethod -Uri $uriGetFile -Method get -OutFile $OutFilePath 
+              Invoke-RestMethod -Uri $uriGetFile -Method get -OutFile $OutFilePath
               #-Headers $AzureDevOpsAuthenicationHeader
           }
 
@@ -51,7 +51,7 @@ steps:
       InvokeGetFileRequest -GitFilePath "/ProductApiItems/12.jpg" -OutFilePath ".\12.jpg"
       InvokeGetFileRequest -GitFilePath "/ProductApiItems/13.jpg" -OutFilePath ".\13.jpg"
       InvokeGetFileRequest -GitFilePath "/ProductApiItems/14.jpg" -OutFilePath ".\14.jpg"
-      
+
       ls $(Build.SourcesDirectory)
 - task: PowerShell@2
   inputs:
@@ -62,15 +62,12 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $outputsObject = ${env:ARMOUTPUTS} | ConvertFrom-Json
-      Write-Host "Output ARM:" $outputsObject
-      ${env:PRODUCTBLOBSTORAGENAME} = $outputsObject
-      Write-Host "##vso[task.setvariable variable=someResourceUriPwsh]$($outputsObject.blobStorageName.value)"
+      Write-Host "Output ARM:" $blobStorageNameOutput
     pwsh: true
 - task: AzureFileCopy@5
   inputs:
     SourcePath: '11.jpg'
     azureSubscription: 'templatesRepository'
     Destination: 'AzureBlob'
-    storage: $(productBlobStorageName)
+    storage: $(blobStorageNameOutput)
     ContainerName: 'mango-product'
