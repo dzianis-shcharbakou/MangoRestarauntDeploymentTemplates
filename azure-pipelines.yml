@@ -57,11 +57,8 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $outputsObject = $env:ARMOUTPUTS | ConvertFrom-Json
-      Write-Host "##vso[task.setvariable variable=someResourceUriPwsh]$($outputsObject.someResourceUri.value)"
-      $env:PRODUCT_BLOB_STORAGE_NAME = (Get-AzResourceGroupDeployment `
-      ResourceGroupName 'dev-template-test-rg' `
-      Name 'DeployMangoTemplates').Outputs.blobStorageName.value
+      $outputsObject = $armOutputs | ConvertFrom-Json
+      Write-Host "##vso[task.setvariable variable=someResourceUriPwsh]$($outputsObject.blobStorageName.value)"
     pwsh: true
 - task: AzureFileCopy@5
   inputs:
