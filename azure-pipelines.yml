@@ -59,12 +59,13 @@ steps:
     script: |
       $json = '$(armOutputs)' | convertfrom-json
       Write-Host "##vso[task.setvariable variable=blobStorageName;]$json.blobStorageName.value"
+      Write-Host "Blob Storage Name:" $json.blobStorageName.value
   name: ParseARMOutput
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host "Blob Storage Name: $(blobStorageName)
+      Write-Host "Blob Storage Name:" $(blobStorageName)
   name: UseBlobStorageName
 - task: AzureFileCopy@5
   inputs:
