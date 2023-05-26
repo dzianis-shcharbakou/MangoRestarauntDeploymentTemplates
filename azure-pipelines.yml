@@ -23,3 +23,32 @@ steps:
     overrideParameters: '-administratorLogin $(administratorLogin) -administratorLoginPassword $(administratorLoginPassword) -productApiDbServerName $(productApiDbServerName) -sqlDBName $(sqlDBName) -serverfarmsMangoPlanName $(serverfarmsMangoPlanName) -sitesMangoProductApiDevName $(sitesMangoProductApiDevName)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      $user = ""
+      $token = "igrvgllzy4aows4vlohizkpiv52fbmz7ybftc2k6o5o3bcowrmoa"
+      $teamProject = "LearnDevOps"
+      $orgName = "whitechapel2995"
+      $repoName = "MangoRestaurantItems"
+
+          function InvokeGetFileRequest ($GitFilePath, $OutFilePath)
+          {
+              Write-Host "Download file" $GitFilePath "to" $OutFilePath
+          
+              #$AzureDevOpsAuthenicationHeader = @{Authorization = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($token)")) }
+              $uriOrganization = "https://dev.azure.com/$orgName/"
+              $uriGetFile = $uriOrganization + "/LearnDevOps/_apis/git/repositories/$repoName/items?scopePath=$GitFilePath&download=true&api-version=6.1-preview.1"
+          
+              Write-Host "Url:" $uriGetFile
+              Invoke-RestMethod -Uri $uriGetFile -Method get -OutFile $OutFilePath 
+              #-Headers $AzureDevOpsAuthenicationHeader
+          }
+
+      InvokeGetFileRequest -GitFilePath "/ProductApiItems/11.jpg" -OutFilePath ".\11.jpg"
+      InvokeGetFileRequest -GitFilePath "/ProductApiItems/12.jpg" -OutFilePath ".\12.jpg"
+      InvokeGetFileRequest -GitFilePath "/ProductApiItems/13.jpg" -OutFilePath ".\13.jpg"
+      InvokeGetFileRequest -GitFilePath "/ProductApiItems/14.jpg" -OutFilePath ".\14.jpg"
+      
+      ls $(Build.SourcesDirectory)
