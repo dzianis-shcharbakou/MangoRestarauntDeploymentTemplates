@@ -55,6 +55,7 @@ steps:
     script: |
       Write-Host "Blob Storage Name:" $(blobStorageName)
   name: UseBlobStorageName
+- checkout: self
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'templatesRepository'
