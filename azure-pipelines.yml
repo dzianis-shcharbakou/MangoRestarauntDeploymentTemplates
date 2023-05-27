@@ -65,7 +65,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host "Blob Storage Name:" $(blobStorageName)
+      Write-Host "Blob Storage Name:" ${blobStorageName}
   name: UseBlobStorageName
 - task: AzureCLI@2
   inputs:
