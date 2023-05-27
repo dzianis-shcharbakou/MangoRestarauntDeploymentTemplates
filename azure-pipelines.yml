@@ -76,8 +76,9 @@ steps:
       export containerName='$(blobStorageName)'"/default/mango-product"
       echo ${containerName}
       echo ''$(blobStorageName)''
+      az role assignment list --all
       az storage blob upload \
-          --account-name '$(blobStorageName)' \
+          --account-name ''$(blobStorageName)'' \
           --container-name ${containerName} \
           --name 11.jpg \
           --file 11.jpg \
