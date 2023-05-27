@@ -82,7 +82,10 @@ steps:
       
       uploadtokenexpiry=`date -u -d "30 minutes" '+%Y-%m-%dT%H:%MZ'`
       uploadsas=$(az storage container generate-sas -n ${containerName} --https-only --permissions rwl --expiry $uploadtokenexpiry -o tsv --account-name '$(blobStorageName)' --account-key $accountkey)
-      az storage azcopy blob upload -c mango-product --account-name productmwdtxpdkpg5bc -s 11.jpg  --recursive --sas-token $uploadsas
+      az storage azcopy blob upload -c mango-product --account-name productmwdtxpdkpg5bc -s 11.jpg  --recursive
+
+      # --sas-token $uploadsas
+
       #echo https://'$(blobStorageName)'.blob.core.windows.net/mango-product/11.jpg?$downloadsas
 
       #downloadsas=$(az storage container generate-sas -n ${containerName} --https-only --permissions rl --expiry ${downloadtokenexpiry} -o tsv --account-name '$(blobStorageName)' --account-key ${accountkey})
