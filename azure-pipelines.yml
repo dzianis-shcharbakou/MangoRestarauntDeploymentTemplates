@@ -72,15 +72,14 @@ steps:
     azureSubscription: 'templatesRepository'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
-    arguments: 'how to '
     inlineScript: |
       $containerName=${blobStorageName}"/default/mango-product"
       echo $containerName
       echo ${blobStorageName}
-      az storage blob upload \
-          --account-name ${blobStorageName} \
-          --container-name $containerName \
-          --name 11.jpg \
-          --file 11.jpg \
-          --auth-mode login
+      # az storage blob upload \
+      #     --account-name ${blobStorageName} \
+      #     --container-name $containerName \
+      #     --name 11.jpg \
+      #     --file 11.jpg \
+      #     --auth-mode login
     ContainerName: 'mango-product'
