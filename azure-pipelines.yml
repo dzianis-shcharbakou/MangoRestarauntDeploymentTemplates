@@ -76,15 +76,26 @@ steps:
       export containerName='$(blobStorageName)'"/default/mango-product"
       echo ${containerName}
       echo ''$(blobStorageName)''
-      az role assignment list --all
-      az role assignment create \
-          --role "Storage Blob Data Contributor" \
-          --assignee whitechapel2995@gmail.com \
-          --scope "/subscriptions/3b17d851-4b89-4b9f-b4f4-99ccab0432be/resourceGroups/dev-template-test-rg/providers/Microsoft.Storage/storageAccounts/'$(blobStorageName)'/blobServices/default/containers/mango-product"
-      az storage blob upload \
-          --account-name ''$(blobStorageName)'' \
-          --container-name ${containerName} \
-          --name 11.jpg \
-          --file 11.jpg \
-          --auth-mode login
+
+      az config set extension.use_dynamic_install=yes_without_prompt
+      accountkey=`az storage account keys list -n '$(blobStorageName)' --query="[0].value" -o tsv`
+      az storage container create -n ${containerName} --account-name '$(blobStorageName)'
+      uploadtokenexpiry=`date -u -d "30 minutes" '+%Y-%m-%dT%H:%MZ'`
+      uploadsas=$(az storage container generate-sas -n ${containerName} --https-only --permissions rwl --expiry $uploadtokenexpiry -o tsv --account-name '$(blobStorageName)' --account-key $accountkey)
+      downloadsas=$(az storage container generate-sas -n ${containerName} --https-only --permissions rl --expiry ${downloadtokenexpiry} -o tsv --account-name '$(blobStorageName)' --account-key ${accountkey})
+      az storage azcopy blob upload -c ${containerName} --account-name '$(blobStorageName)' -s 11.jpg  --recursive --sas-token $uploadsas
+      echo https://'$(blobStorageName)'.blob.core.windows.net/${containerName}/myfile.txt?$downloadsas
+
+      # downloadtokenexpiry=`date -u -d $(token_expiry) '+%Y-%m-%dT%H:%MZ'`
+      # az role assignment list --all
+      # az role assignment create \
+      #     --role "Storage Blob Data Contributor" \
+      #     --assignee whitechapel2995@gmail.com \
+      #     --scope "/subscriptions/3b17d851-4b89-4b9f-b4f4-99ccab0432be/resourceGroups/dev-template-test-rg/providers/Microsoft.Storage/storageAccounts/'$(blobStorageName)'/blobServices/default/containers/mango-product"
+      # az storage blob upload \
+      #     --account-name ''$(blobStorageName)'' \
+      #     --container-name ${containerName} \
+      #     --name 11.jpg \
+      #     --file 11.jpg \
+      #     --auth-mode login
     ContainerName: 'mango-product'
