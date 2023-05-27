@@ -15,6 +15,7 @@ resources:
     type: git
     name: LearnDevOps/MangoRestaurantItems
     endpoint: repo-for-pipeline
+    ref: main
 steps:
 - checkout: self
 - task: AzureResourceManagerTemplateDeployment@3
