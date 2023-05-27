@@ -67,20 +67,16 @@ steps:
     script: |
       Write-Host "Blob Storage Name:" $(blobStorageName)
   name: UseBlobStorageName
-# - task: AzureFileCopy@5
-#   inputs:
-#     SourcePath: '11.jpg'
-#     azureSubscription: 'templatesRepository'
-#     Destination: 'AzureBlob'
-#     storage: 
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'templatesRepository'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
+    arguments: 'how to '
     inlineScript: |
-      ${blobStorageName}
-      $containerName = ${blobStorageName} + "/default/mango-product"
+      $containerName=${blobStorageName}"/default/mango-product"
+      echo $containerName
+      echo ${blobStorageName}
       az storage blob upload \
           --account-name ${blobStorageName} \
           --container-name $containerName \
