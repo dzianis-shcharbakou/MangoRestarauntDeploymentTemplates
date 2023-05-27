@@ -77,7 +77,7 @@ steps:
       echo ${containerName}
       echo ''$(blobStorageName)''
 
-      # az config set extension.use_dynamic_install=yes_without_prompt
+      az config set extension.use_dynamic_install=yes_without_prompt
       # accountkey=`az storage account keys list -n '$(blobStorageName)' --query="[0].value" -o tsv`
       
       # uploadtokenexpiry=`date -u -d "30 minutes" '+%Y-%m-%dT%H:%MZ'`
