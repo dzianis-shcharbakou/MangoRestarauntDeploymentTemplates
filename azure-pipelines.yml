@@ -16,6 +16,7 @@ resources:
     endpoint: repo-for-pipeline
 steps:
 - checkout: self
+- checkout: otherrepo
   persistCredentials: true
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
@@ -31,7 +32,6 @@ steps:
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
     deploymentOutputs: 'armOutputs'
-- checkout: otherrepo
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
