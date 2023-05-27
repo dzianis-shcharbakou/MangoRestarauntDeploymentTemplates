@@ -17,7 +17,6 @@ resources:
     endpoint: repo-for-pipeline
 steps:
 - checkout: self
-  persistCredentials: true
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
