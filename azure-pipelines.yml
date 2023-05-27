@@ -73,8 +73,8 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      $containerName=${blobStorageName}"/default/mango-product"
-      echo $containerName
+      export containerName=${blobStorageName}"/default/mango-product"
+      echo ${containerName}
       echo ${blobStorageName}
       # az storage blob upload \
       #     --account-name ${blobStorageName} \
