@@ -9,6 +9,11 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+resources:
+  repositories:
+  - repository: otherrepo
+    name: LearnDevOps/MangoRestaurantItems
+    endpoint: repo-for-pipeline
 steps:
 - checkout: self
   persistCredentials: true
@@ -26,6 +31,7 @@ steps:
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
     deploymentOutputs: 'armOutputs'
+- checkout: otherrepo
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
