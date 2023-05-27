@@ -59,7 +59,7 @@ steps:
     script: |
       $json = '$(armOutputs)' | convertfrom-json
       $value = $json.blobStorageName.value
-      Write-Host "##vso[task.setvariable variable=blobStorageName;]$value"
+      Write-Host "##vso[task.setvariable variable=blobStorageName;isOutput=true]$value"
   name: ParseARMOutput
 - task: PowerShell@2
   inputs:
