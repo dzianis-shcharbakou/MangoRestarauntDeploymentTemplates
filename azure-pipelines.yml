@@ -69,9 +69,9 @@ steps:
       az config set extension.use_dynamic_install=yes_without_prompt
       # accountkey=`az storage account keys list -n '$(blobStorageName)' --query="[0].value" -o tsv`
       ls
-      az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s /MangoRestaurantItems/ProductApiItems/11.jpg  --recursive
-      az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s /MangoRestaurantItems/ProductApiItems/12.jpg  --recursive
-      az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s /MangoRestaurantItems/ProductApiItems/13.jpg  --recursive
-      az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s /MangoRestaurantItems/ProductApiItems/14.jpg  --recursive
+      az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/11.jpg  --recursive
+      az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/12.jpg  --recursive
+      az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/13.jpg  --recursive
+      az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/14.jpg  --recursive
 
     ContainerName: 'mango-product'
