@@ -79,13 +79,14 @@ steps:
 
       az config set extension.use_dynamic_install=yes_without_prompt
       accountkey=`az storage account keys list -n '$(blobStorageName)' --query="[0].value" -o tsv`
-      az storage container create -n ${containerName} --account-name '$(blobStorageName)'
+      
       uploadtokenexpiry=`date -u -d "30 minutes" '+%Y-%m-%dT%H:%MZ'`
       uploadsas=$(az storage container generate-sas -n ${containerName} --https-only --permissions rwl --expiry $uploadtokenexpiry -o tsv --account-name '$(blobStorageName)' --account-key $accountkey)
-      downloadsas=$(az storage container generate-sas -n ${containerName} --https-only --permissions rl --expiry ${downloadtokenexpiry} -o tsv --account-name '$(blobStorageName)' --account-key ${accountkey})
-      az storage azcopy blob upload -c ${containerName} --account-name '$(blobStorageName)' -s 11.jpg  --recursive --sas-token $uploadsas
-      echo https://'$(blobStorageName)'.blob.core.windows.net/${containerName}/myfile.txt?$downloadsas
+      az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s 11.jpg  --recursive --sas-token $uploadsas
+      echo https://'$(blobStorageName)'.blob.core.windows.net/mango-product/11.jpg?$downloadsas
 
+      #downloadsas=$(az storage container generate-sas -n ${containerName} --https-only --permissions rl --expiry ${downloadtokenexpiry} -o tsv --account-name '$(blobStorageName)' --account-key ${accountkey})
+      #az storage container create -n ${containerName} --account-name '$(blobStorageName)'
       # downloadtokenexpiry=`date -u -d $(token_expiry) '+%Y-%m-%dT%H:%MZ'`
       # az role assignment list --all
       # az role assignment create \
