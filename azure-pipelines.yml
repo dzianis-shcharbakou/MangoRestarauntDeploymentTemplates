@@ -29,7 +29,7 @@ steps:
     targetType: 'inline'
     script: |
       $env:GIT_REDIRECT_STDERR = '2>&1'
-      git clone "https://dev.azure.com/whitechapel2995/LearnDevOps/_git/MangoRestaurantItems"
+      git clone "https://dev.azure.com/whitechapel2995/LearnDevOps/_git/MangoRestaurantItems" --config credential.helper=clone
 
       ls $(Build.SourcesDirectory)
 - task: PowerShell@2
