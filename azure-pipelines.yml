@@ -72,9 +72,9 @@ steps:
     scriptType: 'pscore'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      $objects = az pipelines variable-group list --org $(org) --project $(project) --group-name $(groupName) | ConvertFrom-Json
+      $objects = az pipelines variable-group list --org $env:org --project $env:project --group-name $env:groupName | ConvertFrom-Json
       $groupId = $objects | Select-Object -First 1 | Select-Object -Property id, variables
-      az pipelines variable-group variable update --org $(org) --project $(project) --group-id $groupId.id --name storageAccountName --value '$(blobStorageName)'
+      az pipelines variable-group variable update --org $env:org --project $env:project --group-id $groupId.id --name storageAccountName --value '$(blobStorageName)'
   name: AssignVariableGroupValues
   env:
     org: 'https://dev.azure.com/whitechapel2995/'
