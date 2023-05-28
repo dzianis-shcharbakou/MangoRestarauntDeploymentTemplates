@@ -60,6 +60,7 @@ steps:
       if ($result.Count -lt 4) {
           $(isBlobStorageContainImages) = false
       }
+      echo $(isBlobStorageContainImages)
   env:
     pat: $(PAT)
 - task: AzureCLI@2
@@ -82,6 +83,7 @@ steps:
     scriptType: 'pscore'
     scriptLocation: 'inlineScript'
     inlineScript: |
+      echo $(isBlobStorageContainImages)
       echo env:pat | az devops login --organization $env:org
       $objects = az pipelines variable-group list --org $env:org --project $env:project --group-name $env:groupName | ConvertFrom-Json
       $groupId = $objects | Select-Object -First 1 | Select-Object -Property id, variables
