@@ -57,7 +57,7 @@ steps:
 #       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/14.jpg  --recursive
 - task: AzureCLI@2
   #condition: ne(variables['blobStorageName'], variables['ProductApi-dev'].storageAccountName)
-  condition: ne(variables['blobStorageName'], 'product73oktiews6luy')
+  condition: ne(variables['ProductApi-dev'].storageAccountName, 'product73oktiews6luy')
   inputs:
     azureSubscription: 'templatesRepository'
     scriptType: 'pscore'
