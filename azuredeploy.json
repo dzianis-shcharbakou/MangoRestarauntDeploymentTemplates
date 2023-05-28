@@ -49,9 +49,7 @@
     }
   },
   "variables": {
-    "sqlDBNameCalculated": {
-      "value": "[format('{0}/{1}', parameters('productApiDbServerName'), parameters('sqlDBName'))]"
-    }
+    "sqlDBNameCalculated": "[format('{0}/{1}', parameters('productApiDbServerName'), parameters('sqlDBName'))]"
   },
   "resources": [
     {
