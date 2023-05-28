@@ -66,13 +66,13 @@ steps:
 #   env:
 #     PATH: $(System.DefaultWorkingDirectory)/PowerShellCore/bin:/usr/local/bin:/usr/bin:/bin:/opt/hostedtoolcache/Python/3.8.12/x64:/opt/hostedtoolcache/Python/3.8.12/x64/bin:/opt/hostedtoolcache/Python/3.9.9/x64:/opt/hostedtoolcache/Python/3.9.9/x64/bin:/opt/hostedtoolcache/Python/3.10.1/x64:/opt/hostedtoolcache/Python/3.10.1/x64/bin
 - task: AzureCLI@2
-  #condition: ne(variables['blobStorageName'], variables['ProductApi-dev'].storageAccountName)
+  condition: ne(variables['blobStorageName'], variables['ProductApi-dev'].storageAccountName)
   inputs:
     azureSubscription: 'templatesRepository'
     scriptType: 'pscore'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      #az config set extension.use_dynamic_install=yes_without_prompt
+      echo $env:blobStorageNameValue
       echo $(PAT) | az devops login --organization $env:org
       $objects = az pipelines variable-group list --org $env:org --project $env:project --group-name $env:groupName | ConvertFrom-Json
       $groupId = $objects | Select-Object -First 1 | Select-Object -Property id, variables
@@ -82,4 +82,4 @@ steps:
     org: 'https://dev.azure.com/whitechapel2995/'
     project: 'LearnDevOps'
     groupName: 'ProductApi-dev'
-    #blobStorageNameValue: '$(blobStorageName)'
+    blobStorageNameValue: '$(blobStorageName)'
