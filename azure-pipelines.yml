@@ -54,7 +54,7 @@ steps:
     scriptLocation: 'inlineScript'
     inlineScript: |
       #az config set extension.use_dynamic_install=yes_without_prompt
-      echo env:pat | az devops login --organization $env:org
+      echo $env:pat | az devops login --organization $env:org
       $objects = az storage blob list -c mango-product --account-name product73oktiews6luy | ConvertFrom-Json
       $result = $objects | where-object {$_.name -in "11.jpg", "12.jpg", "13.jpg", "14.jpg"}
       if ($result.Count -lt 4) {
@@ -82,10 +82,8 @@ steps:
     scriptType: 'pscore'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      echo env:pat
-      az upgrade --yes
-      az config set extension.use_dynamic_install=yes_without_prompt
-      echo env:pat | az devops login --organization $env:org
+      #az config set extension.use_dynamic_install=yes_without_prompt
+      echo $env:pat | az devops login --organization $env:org
       $objects = az pipelines variable-group list --org $env:org --project $env:project --group-name $env:groupName | ConvertFrom-Json
       $groupId = $objects | Select-Object -First 1 | Select-Object -Property id, variables
       az pipelines variable-group variable update --org $env:org --project $env:project --group-id $groupId.id --name storageAccountName --value $env:blobStorageNameValue
