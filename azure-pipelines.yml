@@ -14,11 +14,10 @@ resources:
   - repository: otherrepo
     type: git
     name: LearnDevOps/MangoRestaurantItems
-    # endpoint: repo-for-pipeline
-    # ref: main
 steps:
 - checkout: self
 - task: AzureResourceManagerTemplateDeployment@3
+  name: RestoreTemplate
   inputs:
     deploymentScope: 'Resource Group'
     azureResourceManagerConnection: 'templatesRepository'
@@ -37,24 +36,10 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $env:GIT_REDIRECT_STDERR = '2>&1'
-      git clone git@ssh.dev.azure.com:v3/whitechapel2995/LearnDevOps/MangoRestaurantItems
-
-      ls $(Build.SourcesDirectory)
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
       $json = '$(armOutputs)' | convertfrom-json
       $value = $json.blobStorageName.value
       Write-Host "##vso[task.setvariable variable=blobStorageName;]$value"
   name: ParseARMOutput
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      Write-Host "Blob Storage Name:" $(blobStorageName)
-  name: UseBlobStorageName
 - checkout: self
 - task: AzureCLI@2
   inputs:
@@ -62,16 +47,9 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      export containerName='$(blobStorageName)'"/default/mango-product"
-      echo ${containerName}
-      echo ''$(blobStorageName)''
-
       az config set extension.use_dynamic_install=yes_without_prompt
-      # accountkey=`az storage account keys list -n '$(blobStorageName)' --query="[0].value" -o tsv`
-      ls
       az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/11.jpg  --recursive
       az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/12.jpg  --recursive
       az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/13.jpg  --recursive
       az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/14.jpg  --recursive
-
     ContainerName: 'mango-product'
