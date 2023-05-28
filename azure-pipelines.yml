@@ -23,7 +23,7 @@ steps:
     azureResourceManagerConnection: 'templatesRepository'
     subscriptionId: '3b17d851-4b89-4b9f-b4f4-99ccab0432be'
     action: 'Create Or Update Resource Group'
-    resourceGroupName: 'dev-template-test-rg'
+    resourceGroupName: 'MangoRestaurantMicroservices'
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/azuredeploy.json'
