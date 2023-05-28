@@ -82,6 +82,8 @@ steps:
     scriptType: 'pscore'
     scriptLocation: 'inlineScript'
     inlineScript: |
+      echo env:pat
+      az upgrade --yes
       az config set extension.use_dynamic_install=yes_without_prompt
       echo env:pat | az devops login --organization $env:org
       $objects = az pipelines variable-group list --org $env:org --project $env:project --group-name $env:groupName | ConvertFrom-Json
