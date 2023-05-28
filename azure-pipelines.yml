@@ -56,24 +56,15 @@ steps:
       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/13.jpg  --recursive
       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/14.jpg  --recursive
 # - task: PowerShell@2
-#   condition: ne(variables['blobStorageName'], variables['ProductApi-dev'].storageAccountName)
 #   inputs:
 #     targetType: 'inline'
 #     script: |
-#       $objects = az pipelines variable-group list --org https://dev.azure.com/whitechapel2995/ --project LearnDevOps --group-name ProductApi-dev | ConvertFrom-Json
-#       $groupId = $objects | Select-Object -First 1 | Select-Object -Property id, variables
-#       az pipelines variable-group variable update --org https://dev.azure.com/whitechapel2995/ --project LearnDevOps --group-id $groupId.id --name storageAccountName --value '$(blobStorageName)'
-#   name: AssignVariableGroupValues
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      Install-Module -Name PowerShellGet -Force
-      Install-Module -Name Az -AllowClobber -Force
-  name: InstallPowerShell
-  displayName: 'Install PowerShell'
-  env:
-    PATH: $(System.DefaultWorkingDirectory)/PowerShellCore/bin:/usr/local/bin:/usr/bin:/bin:/opt/hostedtoolcache/Python/3.8.12/x64:/opt/hostedtoolcache/Python/3.8.12/x64/bin:/opt/hostedtoolcache/Python/3.9.9/x64:/opt/hostedtoolcache/Python/3.9.9/x64/bin:/opt/hostedtoolcache/Python/3.10.1/x64:/opt/hostedtoolcache/Python/3.10.1/x64/bin
+#       Install-Module -Name PowerShellGet -Force
+#       Install-Module -Name Az -AllowClobber -Force
+#   name: InstallPowerShell
+#   displayName: 'Install PowerShell'
+#   env:
+#     PATH: $(System.DefaultWorkingDirectory)/PowerShellCore/bin:/usr/local/bin:/usr/bin:/bin:/opt/hostedtoolcache/Python/3.8.12/x64:/opt/hostedtoolcache/Python/3.8.12/x64/bin:/opt/hostedtoolcache/Python/3.9.9/x64:/opt/hostedtoolcache/Python/3.9.9/x64/bin:/opt/hostedtoolcache/Python/3.10.1/x64:/opt/hostedtoolcache/Python/3.10.1/x64/bin
 - task: AzureCLI@2
   condition: ne(variables['blobStorageName'], variables['ProductApi-dev'].storageAccountName)
   inputs:
@@ -81,7 +72,6 @@ steps:
     scriptType: 'pscore'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      $(blobStorageNameValue)
       $objects = az pipelines variable-group list --org $(org) --project $(project) --group-name $(groupName) | ConvertFrom-Json
       $groupId = $objects | Select-Object -First 1 | Select-Object -Property id, variables
       az pipelines variable-group variable update --org $(org) --project $(project) --group-id $groupId.id --name storageAccountName --value '$(blobStorageName)'
@@ -90,4 +80,4 @@ steps:
     org: 'https://dev.azure.com/whitechapel2995/'
     project: 'LearnDevOps'
     groupName: 'ProductApi-dev'
-    blobStorageNameValue: '$(blobStorageName)'
+    #blobStorageNameValue: '$(blobStorageName)'
