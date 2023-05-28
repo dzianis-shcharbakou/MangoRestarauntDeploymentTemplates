@@ -11,6 +11,9 @@
         "metadata": {
             "description": "The storage account location."
         }
+    },
+    "blobContainerName": {
+      "type": "string"
     }
   },
   "resources": [
@@ -73,7 +76,7 @@
     {
       "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
       "apiVersion": "2022-09-01",
-      "name": "[concat(parameters('storageAccountName'), '/default/mango-product')]",
+      "name": "[concat(parameters('storageAccountName'), '/default/', parameters('blobContainerName'))]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]",
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"

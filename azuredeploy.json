@@ -44,6 +44,13 @@
       "type": "string",
       "defaultValue": "[concat('product', uniqueString(resourceGroup().id))]",
       "metadata": {
+        "description": "The storage account name."
+      }
+    },
+    "storageAccountBlobContainerName": {
+      "type": "string",
+      "defaultValue": "mango-product",
+      "metadata": {
         "description": "The storage account location."
       }
     }
@@ -158,6 +165,9 @@
           },
           "location": {
             "value": "[parameters('location')]"
+          },
+          "blobContainerName": {
+            "value": "[parameters('storageAccountBlobContainerName')]"
           }
         }
       }
