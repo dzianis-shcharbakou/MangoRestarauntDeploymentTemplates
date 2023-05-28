@@ -48,6 +48,11 @@
       }
     }
   },
+  "variables": {
+    "sqlDBNameCalculated": {
+      "value": "[format('{0}/{1}', parameters('productApiDbServerName'), parameters('sqlDBName'))]"
+    }
+  },
   "resources": [
     {
       "name": "sqlServer",
@@ -104,7 +109,7 @@
         },
         "parameters": {
           "sqlDBName": {
-            "value": "[format('{0}/{1}', parameters('productApiDbServerName'), parameters('sqlDBName'))]"
+            "value": "[variables('sqlDBNameCalculated')]"
           },
           "location": {
             "value": "[parameters('location')]"
@@ -164,6 +169,10 @@
     "blobStorageName": {
       "type": "string",
       "value": "[parameters('storageAccountName')]"
+    },
+    "sqlDBNameCalculated": {
+      "type": "string",
+      "value": "[variables('sqlDBNameCalculated')]"
     }
   }
 }

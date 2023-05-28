@@ -2,10 +2,6 @@ param (
     [Parameter(Mandatory=$true)][string]$ARMOutput
     )
 
-#region Convert from json
-$json = $ARMOutput | convertfrom-json
-#endregion
-$result = $json.blobStorageName.value
-#region Parse ARM Template Output
-Write-Host "##vso[task.setvariable variable=blobStorageName;]$json.blobStorageName.value"
-#endregion
+$json = '$(armOutputs)' | convertfrom-json
+$value = $json.blobStorageName.value
+Write-Host "##vso[task.setvariable variable=blobStorageName;]$value"
