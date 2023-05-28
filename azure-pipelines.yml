@@ -11,6 +11,8 @@ pool:
 
 variables:
 - group: ProductApi-dev
+- name: isBlobStorageContainImages
+  value: true
 
 resources:
   repositories:
@@ -44,17 +46,36 @@ steps:
       Write-Host "##vso[task.setvariable variable=blobStorageName;]$value"
   name: ParseARMOutput
 # - checkout: self
-# - task: AzureCLI@2
-#   inputs:
-#     azureSubscription: 'templatesRepository'
-#     scriptType: 'bash'
-#     scriptLocation: 'inlineScript'
-#     inlineScript: |
-#       az config set extension.use_dynamic_install=yes_without_prompt
-#       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/11.jpg  --recursive
-#       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/12.jpg  --recursive
-#       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/13.jpg  --recursive
-#       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/14.jpg  --recursive
+- task: AzureCLI@2
+  condition: eq(variables['isBlobStorageContainImages'], false)
+  displayName: Check Images in the Blob storage
+  inputs:
+    azureSubscription: 'templatesRepository'
+    scriptType: 'pscore'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      #az config set extension.use_dynamic_install=yes_without_prompt
+      echo env:pat | az devops login --organization $env:org
+      $objects = az storage blob list -c mango-product --account-name product73oktiews6luy | ConvertFrom-Json
+      $result = $objects | where-object {$_.name -in "11.jpg", "12.jpg", "13.jpg", "14.jpg"}
+      if ($result.Count -lt 4) {
+          $(isBlobStorageContainImages) = false
+      }
+  env:
+    pat: $(PAT)
+- task: AzureCLI@2
+  condition: eq(variables['isBlobStorageContainImages'], false)
+  displayName: Upload Images to Blob storage
+  inputs:
+    azureSubscription: 'templatesRepository'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az config set extension.use_dynamic_install=yes_without_prompt
+      az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/11.jpg  --recursive
+      az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/12.jpg  --recursive
+      az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/13.jpg  --recursive
+      az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/14.jpg  --recursive
 - task: AzureCLI@2
   condition: ne(variables['storageAccountName'], variables['blobStorageName'])
   inputs:
@@ -62,7 +83,7 @@ steps:
     scriptType: 'pscore'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      echo env:pat | az devops login --organization $env:org
+      #echo env:pat | az devops login --organization $env:org
       $objects = az pipelines variable-group list --org $env:org --project $env:project --group-name $env:groupName | ConvertFrom-Json
       $groupId = $objects | Select-Object -First 1 | Select-Object -Property id, variables
       az pipelines variable-group variable update --org $env:org --project $env:project --group-id $groupId.id --name storageAccountName --value $env:blobStorageNameValue
