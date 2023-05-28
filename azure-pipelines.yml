@@ -55,4 +55,3 @@ steps:
       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/12.jpg  --recursive
       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/13.jpg  --recursive
       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/14.jpg  --recursive
-    #ContainerName: $(productBlobContainerName)
