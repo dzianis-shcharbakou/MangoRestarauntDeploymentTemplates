@@ -58,7 +58,7 @@ steps:
       $objects = az storage blob list -c mango-product --account-name product73oktiews6luy | ConvertFrom-Json
       $result = $objects | where-object {$_.name -in "11.jpg", "12.jpg", "13.jpg", "14.jpg"}
       if ($result.Count -lt 4) {
-          $(isBlobStorageContainImages) = false
+          Write-Host "##vso[task.setvariable variable=isBlobStorageContainImages;]false"
       }
       echo $(isBlobStorageContainImages)
   env:
