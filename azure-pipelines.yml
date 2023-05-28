@@ -64,6 +64,13 @@ steps:
 #       $groupId = $objects | Select-Object -First 1 | Select-Object -Property id, variables
 #       az pipelines variable-group variable update --org https://dev.azure.com/whitechapel2995/ --project LearnDevOps --group-id $groupId.id --name storageAccountName --value '$(blobStorageName)'
 #   name: AssignVariableGroupValues
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      Install-Module -Name PowerShellGet -Force
+      Install-Module -Name Az -AllowClobber -Force
+  name: InstallPowerShell
 - task: AzureCLI@2
   condition: ne(variables['blobStorageName'], variables['ProductApi-dev'].storageAccountName)
   inputs:
@@ -71,7 +78,13 @@ steps:
     scriptType: 'ps'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      $objects = az pipelines variable-group list --org https://dev.azure.com/whitechapel2995/ --project LearnDevOps --group-name ProductApi-dev | ConvertFrom-Json
+      $(blobStorageNameValue)
+      $objects = az pipelines variable-group list --org $(org) --project $(project) --group-name $(groupName) | ConvertFrom-Json
       $groupId = $objects | Select-Object -First 1 | Select-Object -Property id, variables
-      az pipelines variable-group variable update --org https://dev.azure.com/whitechapel2995/ --project LearnDevOps --group-id $groupId.id --name storageAccountName --value '$(blobStorageName)'
+      az pipelines variable-group variable update --org $(org) --project $(project) --group-id $groupId.id --name storageAccountName --value '$(blobStorageName)'
   name: AssignVariableGroupValues
+  env:
+    org: 'https://dev.azure.com/whitechapel2995/'
+    project: 'LearnDevOps'
+    groupName: 'ProductApi-dev'
+    blobStorageNameValue: '$(blobStorageName)'
