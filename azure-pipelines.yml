@@ -9,6 +9,9 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+- group: ProductApi-dev
+
 resources:
   repositories:
   - repository: otherrepo
@@ -23,11 +26,11 @@ steps:
     azureResourceManagerConnection: 'templatesRepository'
     subscriptionId: '3b17d851-4b89-4b9f-b4f4-99ccab0432be'
     action: 'Create Or Update Resource Group'
-    resourceGroupName: 'MangoRestaurantMicroservices'
+    resourceGroupName: $(resourseGroup)
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/azuredeploy.json'
-    overrideParameters: '-administratorLogin $(administratorLogin) -administratorLoginPassword $(administratorLoginPassword) -productApiDbServerName $(productApiDbServerName) -sqlDBName $(sqlDBName) -serverfarmsMangoPlanName $(serverfarmsMangoPlanName) -sitesMangoProductApiDevName $(sitesMangoProductApiDevName)'
+    overrideParameters: '-administratorLogin $(administratorLogin) -administratorLoginPassword $(administratorLoginPassword) -productApiDbServerName $(productApiDbServerName) -sqlDBName $(sqlDBName) -serverfarmsMangoPlanName $(serverfarmsMangoPlanName) -sitesMangoProductApiDevName $(sitesMangoProductApiDevName) -storageAccountBlobContainerName $(productBlobContainerName)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
     deploymentOutputs: 'armOutputs'
@@ -48,8 +51,8 @@ steps:
     scriptLocation: 'inlineScript'
     inlineScript: |
       az config set extension.use_dynamic_install=yes_without_prompt
-      az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/11.jpg  --recursive
-      az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/12.jpg  --recursive
-      az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/13.jpg  --recursive
-      az storage azcopy blob upload -c mango-product --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/14.jpg  --recursive
-    ContainerName: 'mango-product'
+      az storage azcopy blob upload -c $(productBlobName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/11.jpg  --recursive
+      az storage azcopy blob upload -c $(productBlobName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/12.jpg  --recursive
+      az storage azcopy blob upload -c $(productBlobName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/13.jpg  --recursive
+      az storage azcopy blob upload -c $(productBlobName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/14.jpg  --recursive
+    #ContainerName: $(productBlobName)
