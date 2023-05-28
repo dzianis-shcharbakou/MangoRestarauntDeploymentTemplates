@@ -47,7 +47,6 @@ steps:
   name: ParseARMOutput
 # - checkout: self
 - task: AzureCLI@2
-  condition: eq(variables['isBlobStorageContainImages'], false)
   displayName: Check Images in the Blob storage
   inputs:
     azureSubscription: 'templatesRepository'
