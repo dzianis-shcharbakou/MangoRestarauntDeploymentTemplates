@@ -43,30 +43,21 @@ steps:
       $value = $json.blobStorageName.value
       Write-Host "##vso[task.setvariable variable=blobStorageName;]$value"
   name: ParseARMOutput
-- checkout: self
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'templatesRepository'
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: |
-      az config set extension.use_dynamic_install=yes_without_prompt
-      az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/11.jpg  --recursive
-      az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/12.jpg  --recursive
-      az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/13.jpg  --recursive
-      az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/14.jpg  --recursive
-# - task: PowerShell@2
+# - checkout: self
+# - task: AzureCLI@2
 #   inputs:
-#     targetType: 'inline'
-#     script: |
-#       Install-Module -Name PowerShellGet -Force
-#       Install-Module -Name Az -AllowClobber -Force
-#   name: InstallPowerShell
-#   displayName: 'Install PowerShell'
-#   env:
-#     PATH: $(System.DefaultWorkingDirectory)/PowerShellCore/bin:/usr/local/bin:/usr/bin:/bin:/opt/hostedtoolcache/Python/3.8.12/x64:/opt/hostedtoolcache/Python/3.8.12/x64/bin:/opt/hostedtoolcache/Python/3.9.9/x64:/opt/hostedtoolcache/Python/3.9.9/x64/bin:/opt/hostedtoolcache/Python/3.10.1/x64:/opt/hostedtoolcache/Python/3.10.1/x64/bin
+#     azureSubscription: 'templatesRepository'
+#     scriptType: 'bash'
+#     scriptLocation: 'inlineScript'
+#     inlineScript: |
+#       az config set extension.use_dynamic_install=yes_without_prompt
+#       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/11.jpg  --recursive
+#       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/12.jpg  --recursive
+#       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/13.jpg  --recursive
+#       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/14.jpg  --recursive
 - task: AzureCLI@2
-  condition: ne(variables['blobStorageName'], variables['ProductApi-dev'].storageAccountName)
+  #condition: ne(variables['blobStorageName'], variables['ProductApi-dev'].storageAccountName)
+  condition: ne(variables['blobStorageName'], 'product73oktiews6luy')
   inputs:
     azureSubscription: 'templatesRepository'
     scriptType: 'pscore'
