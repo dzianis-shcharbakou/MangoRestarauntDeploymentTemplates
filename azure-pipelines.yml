@@ -55,11 +55,22 @@ steps:
       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/12.jpg  --recursive
       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/13.jpg  --recursive
       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/14.jpg  --recursive
-- task: PowerShell@2
+# - task: PowerShell@2
+#   condition: ne(variables['blobStorageName'], variables['ProductApi-dev'].storageAccountName)
+#   inputs:
+#     targetType: 'inline'
+#     script: |
+#       $objects = az pipelines variable-group list --org https://dev.azure.com/whitechapel2995/ --project LearnDevOps --group-name ProductApi-dev | ConvertFrom-Json
+#       $groupId = $objects | Select-Object -First 1 | Select-Object -Property id, variables
+#       az pipelines variable-group variable update --org https://dev.azure.com/whitechapel2995/ --project LearnDevOps --group-id $groupId.id --name storageAccountName --value '$(blobStorageName)'
+#   name: AssignVariableGroupValues
+- task: AzureCLI@2
   condition: ne(variables['blobStorageName'], variables['ProductApi-dev'].storageAccountName)
   inputs:
-    targetType: 'inline'
-    script: |
+    azureSubscription: '45d620e8-81b3-4ee5-a6e5-70a1290134af'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
       $objects = az pipelines variable-group list --org https://dev.azure.com/whitechapel2995/ --project LearnDevOps --group-name ProductApi-dev | ConvertFrom-Json
       $groupId = $objects | Select-Object -First 1 | Select-Object -Property id, variables
       az pipelines variable-group variable update --org https://dev.azure.com/whitechapel2995/ --project LearnDevOps --group-id $groupId.id --name storageAccountName --value '$(blobStorageName)'
