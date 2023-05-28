@@ -56,15 +56,13 @@ steps:
 #       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/13.jpg  --recursive
 #       az storage azcopy blob upload -c $(productBlobContainerName) --account-name '$(blobStorageName)' -s $(Build.SourcesDirectory)/MangoRestaurantItems/ProductApiItems/14.jpg  --recursive
 - task: AzureCLI@2
-  #condition: ne(variables['blobStorageName'], variables['ProductApi-dev'].storageAccountName)
-  condition: ne(variables['storageAccountName'], 'product73oktiews6luy')
+  condition: ne(variables['storageAccountName'], variables['blobStorageName'])
   inputs:
     azureSubscription: 'templatesRepository'
     scriptType: 'pscore'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      echo $env:blobStorageNameValue
-      echo $(PAT) | az devops login --organization $env:org
+      echo env:pat | az devops login --organization $env:org
       $objects = az pipelines variable-group list --org $env:org --project $env:project --group-name $env:groupName | ConvertFrom-Json
       $groupId = $objects | Select-Object -First 1 | Select-Object -Property id, variables
       az pipelines variable-group variable update --org $env:org --project $env:project --group-id $groupId.id --name storageAccountName --value $env:blobStorageNameValue
@@ -74,3 +72,4 @@ steps:
     project: 'LearnDevOps'
     groupName: 'ProductApi-dev'
     blobStorageNameValue: '$(blobStorageName)'
+    pat: $(PAT)
