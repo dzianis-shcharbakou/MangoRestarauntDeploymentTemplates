@@ -72,6 +72,8 @@ steps:
     scriptType: 'pscore'
     scriptLocation: 'inlineScript'
     inlineScript: |
+      #az config set extension.use_dynamic_install=yes_without_prompt
+      echo $(System.AccessToken) | az devops login
       $objects = az pipelines variable-group list --org $env:org --project $env:project --group-name $env:groupName | ConvertFrom-Json
       $groupId = $objects | Select-Object -First 1 | Select-Object -Property id, variables
       az pipelines variable-group variable update --org $env:org --project $env:project --group-id $groupId.id --name storageAccountName --value '$(blobStorageName)'
