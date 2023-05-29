@@ -41,6 +41,18 @@
                 "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
                 "publicNetworkAccess": "Enabled"
             }
+        },
+        {
+            "type": "Microsoft.Sql/servers/firewallRules",
+            "apiVersion": "2022-08-01-preview",
+            "name": "[concat(parameters('productApiDbServerName'), '/allow-myself')]",
+            "properties": {
+                "startIpAddress": "79.184.127.151",
+                "endIpAddress": "79.184.127.151"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('productApiDbServerName'))]"
+            ]
         }
     ]
 }
