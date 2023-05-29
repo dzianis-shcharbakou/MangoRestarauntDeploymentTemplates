@@ -47,8 +47,8 @@
             "apiVersion": "2022-08-01-preview",
             "name": "[concat(parameters('productApiDbServerName'), '/allow-myself')]",
             "properties": {
-                "startIpAddress": "79.184.127.151",
-                "endIpAddress": "79.184.127.151"
+                "startIpAddress": "192.168.1.0",
+                "endIpAddress": "192.168.1.0"
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Sql/servers', parameters('productApiDbServerName'))]"
