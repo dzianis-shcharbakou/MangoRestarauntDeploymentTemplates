@@ -53,6 +53,12 @@
       "metadata": {
         "description": "The storage account location."
       }
+    },
+    "startIpAddress": {
+      "type": "string"
+    },
+    "endIpAddress": {
+      "type": "string"
     }
   },
   "variables": {
@@ -80,6 +86,12 @@
           },
           "location": {
             "value": "[parameters('location')]"
+          },
+          "startIpAddress": {
+            "value": "[parameters('startIpAddress')]"
+          },
+          "endIpAddress": {
+            "value": "[parameters('endIpAddress')]"
           }
         }
       }

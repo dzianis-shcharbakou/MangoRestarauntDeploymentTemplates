@@ -24,6 +24,12 @@
             "metadata": {
                 "description": "The storage account location."
             }
+        },
+        "startIpAddress": {
+            "type": "string"
+        },
+        "endIpAddress": {
+            "type": "string"
         }
     },
     "resources": [
@@ -47,8 +53,8 @@
             "apiVersion": "2022-08-01-preview",
             "name": "[concat(parameters('productApiDbServerName'), '/allow-myself')]",
             "properties": {
-                "startIpAddress": "192.168.1.0",
-                "endIpAddress": "192.168.1.0"
+                "startIpAddress": "[parameters('startIpAddress')]",
+                "endIpAddress": "[parameters('endIpAddress')]"
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Sql/servers', parameters('productApiDbServerName'))]"
