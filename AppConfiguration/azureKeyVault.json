@@ -11,7 +11,7 @@
     }
   },
   "variables": {
-    // "vaultUri": "[format('https://{0}.vault.azure.net/', parameters('mangoRestaurantKvName'))]"
+    "vaultUri": "[format('https://{0}.vault.azure.net/', parameters('mangoRestaurantKvName'))]"
   },
   "resources": [
       {
@@ -32,7 +32,7 @@
                 "enableSoftDelete": true,
                 "softDeleteRetentionInDays": 90,
                 "enableRbacAuthorization": true,
-                // "vaultUri": "[variables('vaultUri')]",
+                "vaultUri": "[variables('vaultUri')]",
                 "provisioningState": "Succeeded",
                 "publicNetworkAccess": "Enabled"
             }
