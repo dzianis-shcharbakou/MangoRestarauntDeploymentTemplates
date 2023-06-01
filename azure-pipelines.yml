@@ -58,11 +58,12 @@ steps:
       # }
 
       # echo $User.id
-      $upn = $env:upn
-      echo $upn
-      echo ${env:UPN}
-      $adUserId = (Get-AzADUser -UserPrincipalName $upn).Id
-      Write-Host "##vso[task.setvariable variable=adUserId;]$User.id"
+      az ad sp show --id $env:upn --query objectId -o tsv
+      # $upn = $env:upn
+      # echo $upn
+      # echo ${env:UPN}
+      # $adUserId = (Get-AzADUser -UserPrincipalName $upn).Id
+      #Write-Host "##vso[task.setvariable variable=adUserId;]$User.id"
   env:
     upn: $(upn)
 - task: AzureResourceManagerTemplateDeployment@3
