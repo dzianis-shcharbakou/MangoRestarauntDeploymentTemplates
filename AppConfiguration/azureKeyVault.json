@@ -24,9 +24,6 @@
       "type": "securestring"
     }
   },
-  "variables": {
-    "vaultUri": "[format('https://{0}.vault.azure.net/', parameters('mangoRestaurantKvName'))]"
-  },
   "resources": [
       {
         "type": "Microsoft.KeyVault/vaults",
@@ -45,7 +42,6 @@
             "enableSoftDelete": true,
             "softDeleteRetentionInDays": 90,
             "enableRbacAuthorization": true,
-            "vaultUri": "[variables('vaultUri')]",
             "provisioningState": "Succeeded",
             "publicNetworkAccess": "Enabled",
             "accessPolicies": [
