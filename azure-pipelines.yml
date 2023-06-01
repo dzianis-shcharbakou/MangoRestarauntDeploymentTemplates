@@ -13,6 +13,8 @@ variables:
 - group: ProductApi-dev
 - name: isBlobStorageContainImages
   value: true
+- name: adUserId
+  value: ""
 
 resources:
   repositories:
@@ -21,26 +23,36 @@ resources:
     name: LearnDevOps/MangoRestaurantItems
 steps:
 - checkout: self
+- task: AzurePowerShell@5
+  displayName: Get AD user id
+  inputs:
+    azureSubscription: 'templatesRepository'
+    ScriptType: 'InlineScript'
+    Inline: |
+      $adUserId = (Get-AzADUser -UserPrincipalName $(upn)).Id
+      Write-Host "##vso[task.setvariable variable=adUserId;]$adUserId"
+    azurePowerShellVersion: 'LatestVersion'
 - task: AzureResourceManagerTemplateDeployment@3
+  displayName: Deploy Az Key Vault
   inputs:
     deploymentScope: 'Resource Group'
     azureResourceManagerConnection: 'templatesRepository'
-    subscriptionId: '3b17d851-4b89-4b9f-b4f4-99ccab0432be'
+    subscriptionId: $(subscriptionId)
     action: 'Create Or Update Resource Group'
     resourceGroupName: 'MangoRestaurantKv'
     location: 'West Europe'
     templateLocation: 'URL of the file'
-    csmFileLink: 'https://github.com/whitechapel5991/MangoRestarauntDeploymentTemplates/blob/main/AppConfiguration/azureKeyVault.json'
+    csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/AppConfiguration/azureKeyVault.json'
     overrideParameters: '-adUserId $(adUserId) -mangoRestaurantKvName $(mangoRestaurantKvName) -productDbConnectionStringValue $(ProductDbConnectionDev)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoKvTemplates'
     deploymentOutputs: 'kvOutputs'
 - task: AzureResourceManagerTemplateDeployment@3
-  name: RestoreTemplate
+  displayName: Restore infrastructure template
   inputs:
     deploymentScope: 'Resource Group'
     azureResourceManagerConnection: 'templatesRepository'
-    subscriptionId: '3b17d851-4b89-4b9f-b4f4-99ccab0432be'
+    subscriptionId: $(subscriptionId)
     action: 'Create Or Update Resource Group'
     resourceGroupName: $(resourseGroup)
     location: 'West Europe'
