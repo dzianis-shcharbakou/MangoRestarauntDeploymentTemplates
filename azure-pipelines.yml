@@ -29,11 +29,14 @@ steps:
     azureSubscription: 'templatesRepository'
     ScriptType: 'InlineScript'
     Inline: |
-      $upn = ${env:$UPN}
-      $upn
+      $upn = $env:upn
+      echo $upn
+      echo ${env:UPN}
       $adUserId = (Get-AzADUser -UserPrincipalName $upn).Id
       Write-Host "##vso[task.setvariable variable=adUserId;]$adUserId"
     azurePowerShellVersion: 'LatestVersion'
+  env:
+    upn: $(upn)
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: Deploy Az Key Vault
   inputs:
