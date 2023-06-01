@@ -13,8 +13,6 @@ variables:
 - group: ProductApi-dev
 - name: isBlobStorageContainImages
   value: true
-- name: adUserId
-  value: ""
 
 resources:
   repositories:
@@ -23,54 +21,6 @@ resources:
     name: LearnDevOps/MangoRestaurantItems
 steps:
 - checkout: self
-# - task: AzurePowerShell@5
-#   displayName: Get AD user id
-#   inputs:
-#     azureSubscription: 'templatesRepository'
-#     ScriptType: 'InlineScript'
-#     Inline: |
-#       # $upn = $env:upn
-#       # echo $upn
-#       # echo ${env:UPN}
-#       # $adUserId = (Get-AzADUser -UserPrincipalName $upn).Id
-#       Write-Host "##vso[task.setvariable variable=adUserId;]$User.id"
-#     azurePowerShellVersion: 'LatestVersion'
-#   env:
-#     upn: $(upn)
-- task: AzureCLI@2
-  displayName: Get AD user id
-  inputs:
-    azureSubscription: 'templatesRepository'
-    scriptType: 'pscore'
-    scriptLocation: 'inlineScript'
-    inlineScript: |
-      echo $(upn)
-      echo "##vso[task.setvariable variable=upn;issecret=true]$(upn)"
-      echo '$(upn)'
-      # echo $env:upn
-      # $env:upn
-      # $ctx = Get-AzContext
-      
-      # #This is different for users that are internal vs external
-      # #We can use Mail for users and guests
-      # $User = Get-AzADUser -Mail $ctx.Account.id
-      # if (-not $user) {  #Try UPN
-      #     $User = Get-AzADUser -UserPrincipalName $ctx.Account.Id
-      # }
-      # if (-not $User) { #User was not found by mail or UPN, try MailNick
-      #     $mail = ($ctx.Account.id -replace "@","_" ) + "#EXT#"
-      #     $User = Get-AzADUser | Where-Object { $_MailNick -EQ $Mail}
-      # }
-
-      # echo $User.id
-      #az ad sp show --id $env:upn --query objectId -o tsv
-      # $upn = $env:upn
-      # echo $upn
-      # echo ${env:UPN}
-      # $adUserId = (Get-AzADUser -UserPrincipalName $upn).Id
-      #Write-Host "##vso[task.setvariable variable=adUserId;]$User.id"
-  # env:
-  #   upn: $(upn)
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: Deploy Az Key Vault
   inputs:
