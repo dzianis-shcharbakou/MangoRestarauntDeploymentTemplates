@@ -3,18 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "sqlDBName": {
-            "type": "string",
-            "defaultValue": "Mango.Service.ProductAPI_db",
-            "metadata": {
-                "description": "The name of the SQL Database."
-            }
+            "type": "string"
         },
         "location": {
-            "type": "string",
-            "defaultValue": "[resourceGroup().location]",
-            "metadata": {
-                "description": "The storage account location."
-            }
+            "type": "string"
         }
     },
     "variables": {},

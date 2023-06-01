@@ -3,14 +3,10 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "storageAccountName": {
-      "defaultValue": "product",
       "type": "string"
     },
     "location": {
-        "type": "string",
-        "metadata": {
-            "description": "The storage account location."
-        }
+        "type": "string"
     },
     "blobContainerName": {
       "type": "string"

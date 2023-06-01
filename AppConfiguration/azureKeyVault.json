@@ -3,7 +3,6 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "mangoRestaurantKvName": {
-        "defaultValue": "mango-restaurant-kv",
         "type": "String"
     },
     "location": {
