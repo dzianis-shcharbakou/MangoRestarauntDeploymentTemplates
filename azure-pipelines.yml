@@ -23,14 +23,29 @@ resources:
     name: LearnDevOps/MangoRestaurantItems
 steps:
 - checkout: self
-- task: AzurePowerShell@5
+# - task: AzurePowerShell@5
+#   displayName: Get AD user id
+#   inputs:
+#     azureSubscription: 'templatesRepository'
+#     ScriptType: 'InlineScript'
+#     Inline: |
+#       # $upn = $env:upn
+#       # echo $upn
+#       # echo ${env:UPN}
+#       # $adUserId = (Get-AzADUser -UserPrincipalName $upn).Id
+#       Write-Host "##vso[task.setvariable variable=adUserId;]$User.id"
+#     azurePowerShellVersion: 'LatestVersion'
+#   env:
+#     upn: $(upn)
+- task: AzureCLI@2
   displayName: Get AD user id
   inputs:
     azureSubscription: 'templatesRepository'
-    ScriptType: 'InlineScript'
-    Inline: |
+    scriptType: 'pscore'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
       $ctx = Get-AzContext
-
+      
       #This is different for users that are internal vs external
       #We can use Mail for users and guests
       $User = Get-AzADUser -Mail $ctx.Account.id
@@ -43,14 +58,7 @@ steps:
       }
 
       echo $User.id
-      # $upn = $env:upn
-      # echo $upn
-      # echo ${env:UPN}
-      # $adUserId = (Get-AzADUser -UserPrincipalName $upn).Id
       Write-Host "##vso[task.setvariable variable=adUserId;]$User.id"
-    azurePowerShellVersion: 'LatestVersion'
-  env:
-    upn: $(upn)
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: Deploy Az Key Vault
   inputs:
