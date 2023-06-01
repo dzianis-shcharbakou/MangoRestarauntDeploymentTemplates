@@ -44,6 +44,8 @@ steps:
     scriptType: 'pscore'
     scriptLocation: 'inlineScript'
     inlineScript: |
+      echo $env:upn
+      $env:upn
       # $ctx = Get-AzContext
       
       # #This is different for users that are internal vs external
