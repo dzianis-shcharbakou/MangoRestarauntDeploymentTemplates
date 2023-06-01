@@ -33,13 +33,13 @@
         "defaultValue": "mango-ProductApi-dev",
         "type": "string"
     },
-    "location": {
-      "type": "string",
-      "defaultValue": "[resourceGroup().location]",
-      "metadata": {
-        "description": "The storage account location."
-      }
-    },
+    // "location": {
+    //   "type": "string",
+    //   "defaultValue": "[resourceGroup().location]",
+    //   "metadata": {
+    //     "description": "The storage account location."
+    //   }
+    // },
     "storageAccountName": {
       "type": "string",
       "defaultValue": "[concat('product', uniqueString(resourceGroup().id))]",
@@ -84,6 +84,7 @@
   },
   "variables": {
     "sqlDBNameCalculated": "[format('{0}/{1}', parameters('productApiDbServerName'), parameters('sqlDBName'))]",
+    "location": "[resourceGroup().location]",
     "userAssignedIdentity": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{2}', subscription().subscriptionId, resourceGroup().name, parameters('productIdentityName'))]"
   },
   "resources": [
@@ -107,7 +108,7 @@
             "value": "[parameters('productApiDbServerName')]"
           },
           "location": {
-            "value": "[parameters('location')]"
+            "value": "[variables('location')]"
           },
           "startIpAddress": {
             "value": "[parameters('startIpAddress')]"
@@ -135,7 +136,7 @@
             "value": "[parameters('serverfarmsMangoPlanName')]"
           },
           "location": {
-            "value": "[parameters('location')]"
+            "value": "[variables('location')]"
           },
           "tags": {
             "value": "[parameters('tags')]"
@@ -157,7 +158,7 @@
             "value": "[parameters('productIdentityName')]"
           },
           "location": {
-            "value": "[parameters('location')]"
+            "value": "[variables('location')]"
           },
           "tags": {
             "value": "[parameters('tags')]"
@@ -182,7 +183,7 @@
             "value": "[variables('userAssignedIdentity')]"
           },
           "location": {
-            "value": "[parameters('location')]"
+            "value": "[variables('location')]"
           },
           "tags": {
             "value": "[parameters('tags')]"
@@ -207,7 +208,7 @@
             "value": "[variables('sqlDBNameCalculated')]"
           },
           "location": {
-            "value": "[parameters('location')]"
+            "value": "[variables('location')]"
           },
           "tags": {
             "value": "[parameters('tags')]"
@@ -235,7 +236,7 @@
             "value": "[parameters('sitesMangoProductApiDevName')]"
           },
           "location": {
-            "value": "[parameters('location')]"
+            "value": "[variables('location')]"
           },
           "productIdentity": {
             "value": "[variables('userAssignedIdentity')]"
@@ -264,7 +265,7 @@
             "value": "[parameters('storageAccountName')]"
           },
           "location": {
-            "value": "[parameters('location')]"
+            "value": "[variables('location')]"
           },
           "blobContainerName": {
             "value": "[parameters('storageAccountBlobContainerName')]"
