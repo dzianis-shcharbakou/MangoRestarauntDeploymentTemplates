@@ -44,8 +44,9 @@ steps:
     scriptType: 'pscore'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      echo $env:upn
-      $env:upn
+      echo $(upn)
+      # echo $env:upn
+      # $env:upn
       # $ctx = Get-AzContext
       
       # #This is different for users that are internal vs external
@@ -66,8 +67,8 @@ steps:
       # echo ${env:UPN}
       # $adUserId = (Get-AzADUser -UserPrincipalName $upn).Id
       #Write-Host "##vso[task.setvariable variable=adUserId;]$User.id"
-  env:
-    upn: $(upn)
+  # env:
+  #   upn: $(upn)
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: Deploy Az Key Vault
   inputs:
