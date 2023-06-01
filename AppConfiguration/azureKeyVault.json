@@ -35,21 +35,22 @@
                 "provisioningState": "Succeeded",
                 "publicNetworkAccess": "Enabled"
             }
-        },
-        {
-            "type": "Microsoft.KeyVault/vaults/secrets",
-            "apiVersion": "2022-07-01",
-            "name": "[concat(parameters('mangoRestaurantKvName'), '/ProductDbConnectionDev')]",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.KeyVault/vaults', parameters('mangoRestaurantKvName'))]"
-            ],
-            "properties": {
-                "attributes": {
-                    "enabled": true
-                }
-            }
         }
+        // ,
+        // {
+        //     "type": "Microsoft.KeyVault/vaults/secrets",
+        //     "apiVersion": "2022-07-01",
+        //     "name": "[concat(parameters('mangoRestaurantKvName'), '/ProductDbConnectionDev')]",
+        //     "location": "[parameters('location')]",
+        //     "dependsOn": [
+        //         "[resourceId('Microsoft.KeyVault/vaults', parameters('mangoRestaurantKvName'))]"
+        //     ],
+        //     "properties": {
+        //         "attributes": {
+        //             "enabled": true
+        //         }
+        //     }
+        // }
   ]
 }
 
