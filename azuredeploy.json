@@ -68,13 +68,6 @@
         "description": "The storage account location."
       }
     },
-    "mangoRestaurantKvName": {
-      "type": "string",
-      "defaultValue": "mango-restaurant-kv",
-      "metadata": {
-        "description": "The key vault name."
-      }
-    },
     "startIpAddress": {
       "type": "string"
     },
