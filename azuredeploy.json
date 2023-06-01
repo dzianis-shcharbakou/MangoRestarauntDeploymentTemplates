@@ -182,28 +182,6 @@
       ]
     },
     {
-      "name": "keyVault",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "relativePath": "./AppConfiguration/azureKeyVault.json"
-        },
-        "parameters": {
-          "mangoRestaurantKvName": {
-            "value": "[parameters('mangoRestaurantKvName')]"
-          },
-          "location": {
-            "value": "[parameters('location')]"
-          }
-        }
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', 'productIdentity')]"
-      ]
-    },
-    {
       "name": "sqlDb",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",

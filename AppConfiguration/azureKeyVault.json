@@ -3,10 +3,24 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "mangoRestaurantKvName": {
-        "type": "String"
+      "type": "string"
     },
     "location": {
-        "type": "string"
+      "type": "string"
+    },
+    "tenantId": {
+      "type": "string",
+      "defaultValue": "[subscription().tenantId]"
+    },
+    "adUserId": {
+      "type": "string"
+    },
+    "secretName": {
+      "type": "string",
+      "defaultValue": "vmAdminPassword"
+    },
+    "secretValue": {
+      "type": "securestring"
     }
   },
   "variables": {
@@ -14,43 +28,93 @@
   },
   "resources": [
       {
-            "type": "Microsoft.KeyVault/vaults",
-            "apiVersion": "2022-07-01",
-            "name": "[parameters('mangoRestaurantKvName')]",
-            "location": "[parameters('location')]",
-            "properties": {
-                "sku": {
-                    "family": "A",
-                    "name": "Standard"
-                },
-                "tenantId": "45d620e8-81b3-4ee5-a6e5-70a1290134af",
-                "accessPolicies": [],
-                "enabledForDeployment": false,
-                "enabledForDiskEncryption": false,
-                "enabledForTemplateDeployment": false,
-                "enableSoftDelete": true,
-                "softDeleteRetentionInDays": 90,
-                "enableRbacAuthorization": true,
-                "vaultUri": "[variables('vaultUri')]",
-                "provisioningState": "Succeeded",
-                "publicNetworkAccess": "Enabled"
+        "type": "Microsoft.KeyVault/vaults",
+        "apiVersion": "2022-07-01",
+        "name": "[parameters('mangoRestaurantKvName')]",
+        "location": "[parameters('location')]",
+        "properties": {
+            "sku": {
+                "family": "A",
+                "name": "Standard"
+            },
+            "tenantId": "[parameters('tenantId')]",
+            "enabledForDeployment": false,
+            "enabledForDiskEncryption": false,
+            "enabledForTemplateDeployment": true,
+            "enableSoftDelete": true,
+            "softDeleteRetentionInDays": 90,
+            "enableRbacAuthorization": true,
+            "vaultUri": "[variables('vaultUri')]",
+            "provisioningState": "Succeeded",
+            "publicNetworkAccess": "Enabled",
+            "accessPolicies": [
+            {
+              "objectId": "[parameters('adUserId')]",
+              "tenantId": "[parameters('tenantId')]",
+              "permissions": {
+                "keys": [
+                  "Get",
+                  "List",
+                  "Update",
+                  "Create",
+                  "Import",
+                  "Delete",
+                  "Recover",
+                  "Backup",
+                  "Restore"
+                ],
+                "secrets": [
+                  "Get",
+                  "List",
+                  "Set",
+                  "Delete",
+                  "Recover",
+                  "Backup",
+                  "Restore"
+                ],
+                "certificates": [
+                  "Get",
+                  "List",
+                  "Update",
+                  "Create",
+                  "Import",
+                  "Delete",
+                  "Recover",
+                  "Backup",
+                  "Restore",
+                  "ManageContacts",
+                  "ManageIssuers",
+                  "GetIssuers",
+                  "ListIssuers",
+                  "SetIssuers",
+                  "DeleteIssuers"
+                ]
+              }
             }
+            ]
         }
-        // ,
-        // {
-        //     "type": "Microsoft.KeyVault/vaults/secrets",
-        //     "apiVersion": "2022-07-01",
-        //     "name": "[concat(parameters('mangoRestaurantKvName'), '/ProductDbConnectionDev')]",
-        //     "location": "[parameters('location')]",
-        //     "dependsOn": [
-        //         "[resourceId('Microsoft.KeyVault/vaults', parameters('mangoRestaurantKvName'))]"
-        //     ],
-        //     "properties": {
-        //         "attributes": {
-        //             "enabled": true
-        //         }
-        //     }
-        // }
-  ]
+      },
+      {
+        "type": "Microsoft.KeyVault/vaults/secrets",
+        "apiVersion": "2022-07-01",
+        "name": "[concat(parameters('mangoRestaurantKvName'), '/', parameters('secretName'))]",
+        "location": "[parameters('location')]",
+        "dependsOn": [
+            "[resourceId('Microsoft.KeyVault/vaults', parameters('mangoRestaurantKvName'))]"
+        ],
+        "properties": {
+          "contentType": "securestring",
+          "value": "[parameters('secretValue')]",
+          "attributes": {
+              "enabled": true
+          }
+        }
+      }
+  ],
+  "outputs": {
+    "keyVaultId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.KeyVault/vaults', parameters('mangoRestaurantKvName'))]"
+    }
+  }
 }
-
