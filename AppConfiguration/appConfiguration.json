@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appConfigurationName": {
+      "type": "string"
+    },
+    "productIdentity": {
+      "type": "string"
+    },
+    "location": {
+        "type": "string",
+        "defaultValue": "[resourceGroup().location]"
+    }
+  },
+  "variables": {
+  },
+  "resources": [
+    {
+      "type": "Microsoft.AppConfiguration/configurationStores",
+            "apiVersion": "2023-03-01",
+            "name": "[parameters('appConfigurationName')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "free"
+            },
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "[parameters('productIdentity')]": {}
+                }
+            },
+            "properties": {
+                "disableLocalAuth": false,
+                "softDeleteRetentionInDays": 0,
+                "enablePurgeProtection": false
+            }
+    }
+  ]
+}
+

@@ -16,6 +16,9 @@
             "metadata": {
                 "description": "The storage account location."
             }
+        },
+         "productIdentity": {
+          "type": "string"
         }
   },
   "resources": [
@@ -28,6 +31,12 @@
       "tags": {
         "env": "dev",
         "app": "productApi"
+      },
+      "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+              "[parameters('productIdentity')]": {}
+          }
       },
       "properties": {
         "siteConfig": {

@@ -54,6 +54,27 @@
         "description": "The storage account location."
       }
     },
+    "productIdentityName": {
+      "type": "string",
+      "defaultValue": "mango-product-identity",
+      "metadata": {
+        "description": "The product identity name for az key vault access."
+      }
+    },
+    "appConfigurationName": {
+      "type": "string",
+      "defaultValue": "mango-restaurant-configuration",
+      "metadata": {
+        "description": "The storage account location."
+      }
+    },
+    "mangoRestaurantKvName": {
+      "type": "string",
+      "defaultValue": "mango-restaurant-kv",
+      "metadata": {
+        "description": "The key vault name."
+      }
+    },
     "startIpAddress": {
       "type": "string"
     },
@@ -62,7 +83,8 @@
     }
   },
   "variables": {
-    "sqlDBNameCalculated": "[format('{0}/{1}', parameters('productApiDbServerName'), parameters('sqlDBName'))]"
+    "sqlDBNameCalculated": "[format('{0}/{1}', parameters('productApiDbServerName'), parameters('sqlDBName'))]",
+    "userAssignedIdentity": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{3}', subscription().subscriptionId, resourceGroup().name, parameters('productIdentityName'))]"
   },
   "resources": [
     {
@@ -116,6 +138,72 @@
       }
     },
     {
+      "name": "productIdentity",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "relativePath": "./ManagedIdentity/productIdentity.json"
+        },
+        "parameters": {
+          "productIdentityName": {
+            "value": "[parameters('productIdentityName')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "appConfiguration",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "relativePath": "./AppConfiguration/appConfiguration.json"
+        },
+        "parameters": {
+          "appConfigurationName": {
+            "value": "[parameters('appConfigurationName')]"
+          },
+          "productIdentity": {
+            "value": "[variables('userAssignedIdentity')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'productIdentity')]"
+      ]
+    },
+    {
+      "name": "keyVault",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "relativePath": "./AppConfiguration/azureKeyVault.json"
+        },
+        "parameters": {
+          "mangoRestaurantKvName": {
+            "value": "[parameters('mangoRestaurantKvName')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'productIdentity')]"
+      ]
+    },
+    {
       "name": "sqlDb",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
@@ -155,11 +243,15 @@
           },
           "location": {
             "value": "[parameters('location')]"
+          },
+          "productIdentity": {
+            "value": "[variables('userAssignedIdentity')]"
           }
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', 'serverFarm')]"
+        "[resourceId('Microsoft.Resources/deployments', 'serverFarm')]",
+        "[resourceId('Microsoft.Resources/deployments', 'productIdentity')]"
       ]
     },
     {
