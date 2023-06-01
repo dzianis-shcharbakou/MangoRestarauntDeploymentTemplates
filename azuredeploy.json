@@ -84,7 +84,7 @@
   },
   "variables": {
     "sqlDBNameCalculated": "[format('{0}/{1}', parameters('productApiDbServerName'), parameters('sqlDBName'))]",
-    "userAssignedIdentity": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{3}', subscription().subscriptionId, resourceGroup().name, parameters('productIdentityName'))]"
+    "userAssignedIdentity": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{2}', subscription().subscriptionId, resourceGroup().name, parameters('productIdentityName'))]"
   },
   "resources": [
     {
