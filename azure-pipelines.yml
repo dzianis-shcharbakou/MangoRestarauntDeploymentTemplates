@@ -45,6 +45,8 @@ steps:
     scriptLocation: 'inlineScript'
     inlineScript: |
       echo $(upn)
+      echo "##vso[task.setvariable variable=upn;issecret=true]$(upn)"
+      echo '$(upn)'
       # echo $env:upn
       # $env:upn
       # $ctx = Get-AzContext
