@@ -2,18 +2,21 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-        "serverfarmsMangoPlanName": {
-            "type": "string"
-        },
-        "sitesMangoProductApiDevName": {
-            "type": "string"
-        },
-        "location": {
-            "type": "string"
-        },
-         "productIdentity": {
-          "type": "string"
-        }
+    "serverfarmsMangoPlanName": {
+      "type": "string"
+    },
+    "sitesMangoProductApiDevName": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+      "productIdentity": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "object"
+    }
   },
   "resources": [
     {
@@ -22,15 +25,11 @@
       "type": "Microsoft.Web/sites",
       "location": "[parameters('location')]",
       "kind":"app",
-      "tags": {
-        "env": "dev",
-        "app": "productApi"
-      },
       "identity": {
-          "type": "UserAssigned",
-          "userAssignedIdentities": {
-              "[parameters('productIdentity')]": {}
-          }
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+          "[parameters('productIdentity')]": {}
+        }
       },
       "properties": {
         "siteConfig": {
@@ -39,7 +38,8 @@
         },
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', parameters('serverfarmsMangoPlanName'))]",
         "clientAffinityEnabled": true
-      }
+      },
+      "tags": "[parameters('tags')]"
     }
   ]
 }

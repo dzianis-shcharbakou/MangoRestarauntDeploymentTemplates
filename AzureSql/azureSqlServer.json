@@ -1,53 +1,53 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "administratorLogin": {
-            "type": "string"
-        },
-        "administratorLoginPassword": {
-            "type": "secureString"
-        },
-        "productApiDbServerName": {
-            "type": "string"
-        },
-        "location": {
-            "type": "string"
-        },
-        "startIpAddress": {
-            "type": "string"
-        },
-        "endIpAddress": {
-            "type": "string"
-        }
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "administratorLogin": {
+      "type": "string"
     },
-    "resources": [
-        {
-            "type": "Microsoft.Sql/servers",
-            "apiVersion": "2022-05-01-preview",
-            "name": "[parameters('productApiDbServerName')]",
-            "location": "[parameters('location')]",
-            "tags": {
-                "env": "dev",
-                "app": "productApi"
-            },
-            "properties": {
-                "administratorLogin": "[parameters('administratorLogin')]",
-                "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
-                "publicNetworkAccess": "Enabled"
-            }
-        },
-        {
-            "type": "Microsoft.Sql/servers/firewallRules",
-            "apiVersion": "2022-05-01-preview",
-            "name": "[concat(parameters('productApiDbServerName'), '/allow-myself')]",
-            "properties": {
-                "startIpAddress": "[parameters('startIpAddress')]",
-                "endIpAddress": "[parameters('endIpAddress')]"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('productApiDbServerName'))]"
-            ]
-        }
-    ]
+    "administratorLoginPassword": {
+      "type": "secureString"
+    },
+    "productApiDbServerName": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "startIpAddress": {
+      "type": "string"
+    },
+    "endIpAddress": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "object"
+    }
+  },
+  "resources": [
+  {
+      "type": "Microsoft.Sql/servers",
+      "apiVersion": "2022-05-01-preview",
+      "name": "[parameters('productApiDbServerName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "administratorLogin": "[parameters('administratorLogin')]",
+        "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
+        "publicNetworkAccess": "Enabled"
+      },
+      "tags": "[parameters('tags')]"
+    },
+    {
+      "type": "Microsoft.Sql/servers/firewallRules",
+      "apiVersion": "2022-05-01-preview",
+      "name": "[concat(parameters('productApiDbServerName'), '/allow-myself')]",
+      "properties": {
+        "startIpAddress": "[parameters('startIpAddress')]",
+        "endIpAddress": "[parameters('endIpAddress')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('productApiDbServerName'))]"
+      ]
+    }
+  ]
 }

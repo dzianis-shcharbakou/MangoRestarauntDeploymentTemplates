@@ -6,7 +6,10 @@
       "type": "string"
     },
     "location": {
-        "type": "string"
+      "type": "string"
+    },
+    "tags": {
+      "type": "object"
     }
   },
   "resources": [
@@ -16,9 +19,6 @@
       "type": "Microsoft.Web/serverfarms",
       "location": "[parameters('location')]",
       "kind": "app",
-      "tags": {
-        "env": "dev"
-      },
       "properties": {
         "perSiteScaling": false,
         "elasticScaleEnabled": false,
@@ -37,7 +37,8 @@
         "size": "F1",
         "family": "F",
         "capacity": 0
-      }
+      },
+      "tags": "[parameters('tags')]"
     }
   ]
 }

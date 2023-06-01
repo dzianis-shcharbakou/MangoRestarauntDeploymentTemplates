@@ -6,15 +6,19 @@
       "type": "string"
     },
     "location": {
-        "type": "string"
+      "type": "string"
+    },
+    "tags": {
+      "type": "object"
     }
   },
   "resources": [
     {
-        "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
-        "apiVersion": "2023-01-31",
-        "name": "[parameters('productIdentityName')]",
-        "location": "[parameters('location')]"
+      "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+      "apiVersion": "2023-01-31",
+      "name": "[parameters('productIdentityName')]",
+      "location": "[parameters('location')]",
+      "tags": "[parameters('tags')]"
     }
   ]
 }
