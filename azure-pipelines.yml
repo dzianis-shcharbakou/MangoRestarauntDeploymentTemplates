@@ -22,6 +22,20 @@ resources:
 steps:
 - checkout: self
 - task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'templatesRepository'
+    subscriptionId: '3b17d851-4b89-4b9f-b4f4-99ccab0432be'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'MangoRestaurantKv'
+    location: 'West Europe'
+    templateLocation: 'URL of the file'
+    csmFileLink: 'https://github.com/whitechapel5991/MangoRestarauntDeploymentTemplates/blob/main/AppConfiguration/azureKeyVault.json'
+    overrideParameters: '-adUserId $(adUserId) -mangoRestaurantKvName $(mangoRestaurantKvName) -productDbConnectionStringValue $(ProductDbConnectionDev)'
+    deploymentMode: 'Incremental'
+    deploymentName: 'DeployMangoKvTemplates'
+    deploymentOutputs: 'kvOutputs'
+- task: AzureResourceManagerTemplateDeployment@3
   name: RestoreTemplate
   inputs:
     deploymentScope: 'Resource Group'
