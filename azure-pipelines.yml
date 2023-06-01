@@ -58,7 +58,7 @@ steps:
       # }
 
       # echo $User.id
-      az ad sp show --id $env:upn --query objectId -o tsv
+      #az ad sp show --id $env:upn --query objectId -o tsv
       # $upn = $env:upn
       # echo $upn
       # echo ${env:UPN}
@@ -77,7 +77,7 @@ steps:
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/AppConfiguration/azureKeyVault.json'
-    overrideParameters: '-adUserId $(adUserId) -mangoRestaurantKvName $(mangoRestaurantKvName) -productDbConnectionStringValue $(ProductDbConnectionDev)'
+    overrideParameters: '-adUserId $(upn) -mangoRestaurantKvName $(mangoRestaurantKvName) -productDbConnectionStringValue $(ProductDbConnectionDev)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoKvTemplates'
     deploymentOutputs: 'kvOutputs'
