@@ -22,6 +22,16 @@
     },
     "productDbConnectionStringValue": {
       "type": "securestring"
+    },
+    "administratorDbServerLoginPassword": {
+      "type": "secureString",
+      "metadata": {
+        "description": "The administrator password of the SQL logical server."
+      }
+    },
+    "administratorDbServerLoginPasswordName": {
+      "type": "string",
+      "defaultValue": "AdministratorDbServerPassword"
     }
   },
   "resources": [
@@ -91,17 +101,33 @@
         ]
       }
     },
+    // {
+    //   "type": "Microsoft.KeyVault/vaults/secrets",
+    //   "apiVersion": "2022-07-01",
+    //   "name": "[concat(parameters('mangoRestaurantKvName'), '/', parameters('productDbConnectionStringName'))]",
+    //   "location": "[parameters('location')]",
+    //   "dependsOn": [
+    //     "[resourceId('Microsoft.KeyVault/vaults', parameters('mangoRestaurantKvName'))]"
+    //   ],
+    //   "properties": {
+    //     "contentType": "securestring",
+    //     "value": "[parameters('productDbConnectionStringValue')]",
+    //     "attributes": {
+    //       "enabled": true
+    //     }
+    //   }
+    // },
     {
       "type": "Microsoft.KeyVault/vaults/secrets",
       "apiVersion": "2022-07-01",
-      "name": "[concat(parameters('mangoRestaurantKvName'), '/', parameters('productDbConnectionStringName'))]",
+      "name": "[concat(parameters('mangoRestaurantKvName'), '/', parameters('administratorDbServerLoginPasswordName'))]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.KeyVault/vaults', parameters('mangoRestaurantKvName'))]"
       ],
       "properties": {
         "contentType": "securestring",
-        "value": "[parameters('productDbConnectionStringValue')]",
+        "value": "[parameters('administratorDbServerLoginPassword')]",
         "attributes": {
           "enabled": true
         }
