@@ -23,8 +23,7 @@
       }
     },
     "administratorDbServerLoginPasswordName": {
-      "type": "string",
-      "defaultValue": "AdministratorDbServerPassword"
+      "type": "string"
     }
   },
   "resources": [

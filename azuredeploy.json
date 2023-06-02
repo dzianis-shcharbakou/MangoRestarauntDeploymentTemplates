@@ -27,12 +27,11 @@
         "defaultValue": "mango-ProductApi-dev",
         "type": "string"
     },
-    "storageAccountName": {
-      "type": "string",
-      "defaultValue": "[concat('product', uniqueString(resourceGroup().id))]",
-      "metadata": {
-        "description": "The storage account name."
-      }
+    "startIpAddress": {
+      "type": "string"
+    },
+    "endIpAddress": {
+      "type": "string"
     },
     "storageAccountBlobContainerName": {
       "type": "string",
@@ -55,19 +54,6 @@
         "description": "The storage account location."
       }
     },
-    "startIpAddress": {
-      "type": "string"
-    },
-    "endIpAddress": {
-      "type": "string"
-    },
-    "tags": {
-      "type": "object",
-      "defaultValue": {
-        "env": "dev",
-        "app": "productApi"
-      }
-    },
     "vaultName": {
       "type": "string",
       "metadata": {
@@ -76,21 +62,26 @@
     },
     "administratorDbServerPasswordName": {
       "type": "string",
-      "metadata": {
-        "description": "The name of the secret."
+      "defaultValue": "AdministratorDbServerPassword"
+    },
+    "adUserId": {
+      "type": "string"
+    },
+    "administratorDbServerLoginPassword": {
+      "type": "secureString"
+    },
+    "tags": {
+      "type": "object",
+      "defaultValue": {
+        "env": "dev",
+        "app": "productApi"
       }
     },
-    "vaultResourceGroupName": {
+    "storageAccountName": {
       "type": "string",
+      "defaultValue": "[concat('product', uniqueString(resourceGroup().id))]",
       "metadata": {
-        "description": "The name of the resource group that contains the keyvault."
-      }
-    },
-    "vaultSubscription": {
-      "type": "string",
-      "defaultValue": "[subscription().subscriptionId]",
-      "metadata": {
-        "description": "The name of the subscription that contains the keyvault."
+        "description": "The storage account name."
       }
     }
   },
@@ -100,6 +91,37 @@
     "userAssignedIdentity": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{2}', subscription().subscriptionId, resourceGroup().name, parameters('productIdentityName'))]"
   },
   "resources": [
+    {
+      "name": "keyVault",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "relativePath": "./AppConfiguration/azureKeyVault.json"
+        },
+        "parameters": {
+          "administratorDbServerLoginPasswordName": {
+            "value": "[parameters('administratorDbServerPasswordName')]"
+          },
+          "administratorDbServerLoginPassword": {
+            "value": "[parameters('administratorDbServerLoginPassword')]"
+          },
+          "tenantId": {
+            "value": "[subscription().tenantId]"
+          },
+          "location": {
+            "value": "[variables('location')]"
+          },
+          "adUserId": {
+            "value": "[parameters('adUserId')]"
+          },
+          "mangoRestaurantKvName": {
+            "value": "[parameters('vaultName')]"
+          }
+        }
+      }
+    },
     {
       "name": "sqlServer",
       "type": "Microsoft.Resources/deployments",
@@ -116,7 +138,7 @@
           "administratorLoginPassword": {
             "reference": {
               "keyVault": {
-                "id": "[resourceId(parameters('vaultSubscription'), parameters('vaultResourceGroupName'), 'Microsoft.KeyVault/vaults', parameters('vaultName'))]"
+                "id": "[resourceId(subscription().subscriptionId, resourceGroup().name, 'Microsoft.KeyVault/vaults', parameters('vaultName'))]"
               },
               "secretName": "[parameters('administratorDbServerPasswordName')]"
             }
@@ -236,7 +258,7 @@
           "administratorLoginPassword": {
             "reference": {
               "keyVault": {
-                "id": "[resourceId(parameters('vaultSubscription'), parameters('vaultResourceGroupName'), 'Microsoft.KeyVault/vaults', parameters('vaultName'))]"
+                "id": "[resourceId(subscription().subscriptionId, resourceGroup().name, 'Microsoft.KeyVault/vaults', parameters('vaultName'))]"
               },
               "secretName": "[parameters('administratorDbServerPasswordName')]"
             }
