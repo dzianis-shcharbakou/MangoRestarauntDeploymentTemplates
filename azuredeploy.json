@@ -71,6 +71,9 @@
       "metadata": {
         "description": "The storage account name."
       }
+    },
+    "serverConnection": {
+      "type": "string"
     }
   },
   "variables": {
@@ -183,6 +186,9 @@
           },
           "productApiDbServerName": {
             "value": "[parameters('productApiDbServerName')]"
+          },
+          "serverConnection": {
+            "value": "[parameters('serverConnection')]"
           }
         }
       }
