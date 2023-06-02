@@ -256,7 +256,8 @@
       "name": "[concat(parameters('vaultName'), '/ProductDbConnectionDev')]",
       "location": "[variables('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.KeyVault/vaults', parameters('vaultName'))]"
+        "[resourceId('Microsoft.KeyVault/vaults', parameters('vaultName'))]",
+        "[resourceId('Microsoft.Resources/deployments', 'sqlDb')]"
       ],
       "properties": {
         "contentType": "securestring",
