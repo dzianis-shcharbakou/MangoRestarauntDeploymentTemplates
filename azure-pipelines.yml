@@ -32,7 +32,7 @@ steps:
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/AppConfiguration/azureKeyVault.json'
-    overrideParameters: '-adUserId $(upn) -mangoRestaurantKvName $(mangoRestaurantKvName) -productDbConnectionStringValue $(ProductDbConnectionDev) -administratorDbServerLoginPassword $(administratorLoginPassword)'
+    overrideParameters: '-adUserId $(upn) -mangoRestaurantKvName $(mangoRestaurantKvName) -administratorDbServerLoginPasswordName $(administratorDbServerLoginPasswordName) -administratorDbServerLoginPassword $(administratorLoginPassword)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoKvTemplates'
     deploymentOutputs: 'kvOutputs'
