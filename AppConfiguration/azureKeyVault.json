@@ -101,22 +101,6 @@
         ]
       }
     },
-    // {
-    //   "type": "Microsoft.KeyVault/vaults/secrets",
-    //   "apiVersion": "2022-07-01",
-    //   "name": "[concat(parameters('mangoRestaurantKvName'), '/', parameters('productDbConnectionStringName'))]",
-    //   "location": "[parameters('location')]",
-    //   "dependsOn": [
-    //     "[resourceId('Microsoft.KeyVault/vaults', parameters('mangoRestaurantKvName'))]"
-    //   ],
-    //   "properties": {
-    //     "contentType": "securestring",
-    //     "value": "[parameters('productDbConnectionStringValue')]",
-    //     "attributes": {
-    //       "enabled": true
-    //     }
-    //   }
-    // },
     {
       "type": "Microsoft.KeyVault/vaults/secrets",
       "apiVersion": "2022-07-01",

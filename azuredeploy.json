@@ -8,12 +8,6 @@
         "description": "The administrator username of the SQL logical server."
       }
     },
-    // "administratorLoginPassword": {
-    //   "type": "secureString",
-    //   "metadata": {
-    //     "description": "The administrator password of the SQL logical server."
-    //   }
-    // },
     "productApiDbServerName": {
       "defaultValue": "mango-service-productapidbserver",
       "type": "string"
@@ -44,7 +38,7 @@
       "type": "string",
       "defaultValue": "mango-product",
       "metadata": {
-        "description": "The storage account location."
+        "description": "The storage account name."
       }
     },
     "productIdentityName": {
@@ -235,12 +229,42 @@
           },
           "tags": {
             "value": "[parameters('tags')]"
+          },
+          "administratorLogin": {
+            "value": "[parameters('administratorLogin')]"
+          },
+          "administratorLoginPassword": {
+            "reference": {
+              "keyVault": {
+                "id": "[resourceId(parameters('vaultSubscription'), parameters('vaultResourceGroupName'), 'Microsoft.KeyVault/vaults', parameters('vaultName'))]"
+              },
+              "secretName": "[parameters('administratorDbServerPasswordName')]"
+            }
+          },
+          "productApiDbServerName": {
+            "value": "[parameters('productApiDbServerName')]"
           }
         }
       },
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'sqlServer')]"
       ]
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults/secrets",
+      "apiVersion": "2022-07-01",
+      "name": "[concat(parameters('vaultName'), '/ProductDbConnectionDev')]",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', parameters('vaultName'))]"
+      ],
+      "properties": {
+        "contentType": "securestring",
+        "value": "[reference('sqlDb').outputs.connectionString.value]",
+        "attributes": {
+          "enabled": true
+        }
+      }
     },
     {
       "name": "productApi",

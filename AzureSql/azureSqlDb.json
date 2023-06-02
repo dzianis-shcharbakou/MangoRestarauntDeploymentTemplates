@@ -10,6 +10,15 @@
     },
     "tags": {
       "type": "object"
+    },
+    "administratorLogin": {
+      "type": "string"
+    },
+    "administratorLoginPassword": {
+      "type": "secureString"
+    },
+    "productApiDbServerName": {
+      "type": "string"
     }
   },
   "variables": {},
@@ -37,5 +46,11 @@
       },
       "tags": "[parameters('tags')]"
     }
-  ]
+  ],
+  "outputs": {
+    "connectionString": {
+        "type": "string",
+        "value": "[concat('Server=tcp:', reference(concat('Microsoft.Sql/servers/', parameters('productApiDbServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('sqlDBName'), ';Persist Security Info=False;User ID=', parameters('administratorLogin'), ';Password=', parameters('administratorLoginPassword'), ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
+    }
+  }
 }
