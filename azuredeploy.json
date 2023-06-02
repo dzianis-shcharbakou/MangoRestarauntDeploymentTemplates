@@ -64,12 +64,6 @@
       "type": "string",
       "defaultValue": "AdministratorDbServerPassword"
     },
-    "adUserId": {
-      "type": "string"
-    },
-    "administratorDbServerLoginPassword": {
-      "type": "secureString"
-    },
     "tags": {
       "type": "object",
       "defaultValue": {
@@ -91,37 +85,6 @@
     "userAssignedIdentity": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{2}', subscription().subscriptionId, resourceGroup().name, parameters('productIdentityName'))]"
   },
   "resources": [
-    {
-      "name": "keyVault",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "relativePath": "./AppConfiguration/azureKeyVault.json"
-        },
-        "parameters": {
-          "administratorDbServerLoginPasswordName": {
-            "value": "[parameters('administratorDbServerPasswordName')]"
-          },
-          "administratorDbServerLoginPassword": {
-            "value": "[parameters('administratorDbServerLoginPassword')]"
-          },
-          "tenantId": {
-            "value": "[subscription().tenantId]"
-          },
-          "location": {
-            "value": "[variables('location')]"
-          },
-          "adUserId": {
-            "value": "[parameters('adUserId')]"
-          },
-          "mangoRestaurantKvName": {
-            "value": "[parameters('vaultName')]"
-          }
-        }
-      }
-    },
     {
       "name": "sqlServer",
       "type": "Microsoft.Resources/deployments",
@@ -159,10 +122,7 @@
             "value": "[parameters('tags')]"
           }
         }
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', 'keyVault')]"
-      ]
+      }
     },
     {
       "name": "serverFarm",
@@ -272,7 +232,6 @@
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', 'keyVault')]",
         "[resourceId('Microsoft.Resources/deployments', 'sqlServer')]"
       ]
     },
@@ -282,7 +241,6 @@
       "name": "[concat(parameters('vaultName'), '/ProductDbConnectionDev')]",
       "location": "[variables('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', 'keyVault')]",
         "[resourceId('Microsoft.Resources/deployments', 'sqlDb')]"
       ],
       "properties": {
