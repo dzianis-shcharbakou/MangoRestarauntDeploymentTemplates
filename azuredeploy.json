@@ -8,12 +8,12 @@
         "description": "The administrator username of the SQL logical server."
       }
     },
-    "administratorLoginPassword": {
-      "type": "secureString",
-      "metadata": {
-        "description": "The administrator password of the SQL logical server."
-      }
-    },
+    // "administratorLoginPassword": {
+    //   "type": "secureString",
+    //   "metadata": {
+    //     "description": "The administrator password of the SQL logical server."
+    //   }
+    // },
     "productApiDbServerName": {
       "defaultValue": "mango-service-productapidbserver",
       "type": "string"
@@ -73,6 +73,31 @@
         "env": "dev",
         "app": "productApi"
       }
+    },
+    "vaultName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the keyvault that contains the secret."
+      }
+    },
+    "administratorDbServerPasswordName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the secret."
+      }
+    },
+    "vaultResourceGroupName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the resource group that contains the keyvault."
+      }
+    },
+    "vaultSubscription": {
+      "type": "string",
+      "defaultValue": "[subscription().subscriptionId]",
+      "metadata": {
+        "description": "The name of the subscription that contains the keyvault."
+      }
     }
   },
   "variables": {
@@ -95,7 +120,12 @@
             "value": "[parameters('administratorLogin')]"
           },
           "administratorLoginPassword": {
-            "value": "[parameters('administratorLoginPassword')]"
+            "reference": {
+              "keyVault": {
+                "id": "[resourceId(parameters('vaultSubscription'), parameters('vaultResourceGroupName'), 'Microsoft.KeyVault/vaults', parameters('vaultName'))]"
+              },
+              "secretName": "[parameters('administratorDbServerPasswordName')]"
+            }
           },
           "productApiDbServerName": {
             "value": "[parameters('productApiDbServerName')]"
