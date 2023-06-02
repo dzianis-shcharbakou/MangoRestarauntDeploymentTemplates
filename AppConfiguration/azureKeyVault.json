@@ -138,6 +138,10 @@
     "keyVaultId": {
       "type": "string",
       "value": "[resourceId('Microsoft.KeyVault/vaults', parameters('mangoRestaurantKvName'))]"
+    },
+    "administratorDbServerLoginPasswordName": {
+      "type": "string",
+      "value": "[parameters('administratorDbServerLoginPasswordName')]"
     }
   }
 }
