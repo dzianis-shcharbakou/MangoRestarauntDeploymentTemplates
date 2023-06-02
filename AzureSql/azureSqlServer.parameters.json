@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "administratorLogin": {
+      "value": "dshcharbakou"
+    },
+    "administratorLoginPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "[resourceId(subscription().subscriptionId, resourceGroup().name, 'Microsoft.KeyVault/vaults', mango-restaurant-kv29)]"
+        },
+        "secretName": "AdministratorDbServerPassword"
+      }
+    },
+    "productApiDbServerName": {
+        "value": "mango-service-productapidbserver"
+    },
+    "location": {
+        "value": "[resourceGroup().location]"
+    },
+    "startIpAddress": {
+        "value": "79.184.127.151"
+    },
+    "endIpAddress": {
+      "value": "79.184.127.151"
+    },
+    "tags": {
+      "value": {
+        "env": "dev",
+        "app": "productApi"
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
