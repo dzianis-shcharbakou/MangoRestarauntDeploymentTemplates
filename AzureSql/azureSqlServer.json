@@ -19,17 +19,18 @@
     },
     "tags": {
       "type": "object"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
     }
-  },
-  "variables": {
-    "location": "[resourceGroup().location]"
   },
   "resources": [
   {
       "type": "Microsoft.Sql/servers",
       "apiVersion": "2022-05-01-preview",
       "name": "[parameters('productApiDbServerName')]",
-      "location": "[variables('location')]",
+      "location": "[parameters('location')]",
       "properties": {
         "administratorLogin": "[parameters('administratorLogin')]",
         "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
