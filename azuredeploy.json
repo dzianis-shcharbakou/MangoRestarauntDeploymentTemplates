@@ -159,7 +159,10 @@
             "value": "[parameters('tags')]"
           }
         }
-      }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'keyVault')]"
+      ]
     },
     {
       "name": "serverFarm",
@@ -269,6 +272,7 @@
         }
       },
       "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'keyVault')]",
         "[resourceId('Microsoft.Resources/deployments', 'sqlServer')]"
       ]
     },
