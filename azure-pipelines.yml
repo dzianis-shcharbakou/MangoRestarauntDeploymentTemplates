@@ -28,24 +28,44 @@ steps:
     azureResourceManagerConnection: 'templatesRepository'
     subscriptionId: $(subscriptionId)
     action: 'Create Or Update Resource Group'
-    resourceGroupName: 'MangoRestaurantKv'
+    resourceGroupName: $(resourseGroup)
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/AppConfiguration/azureKeyVault.json'
-    overrideParameters: '-adUserId $(upn) -mangoRestaurantKvName $(mangoRestaurantKvName) -productDbConnectionStringValue $(ProductDbConnectionDev) -administratorDbServerLoginPassword $(administratorLoginPassword)'
+    overrideParameters: '-adUserId $(upn) -mangoRestaurantKvName $(mangoRestaurantKvName) -administratorDbServerLoginPasswordName $(administratorDbServerLoginPasswordName) -administratorDbServerLoginPassword $(administratorLoginPassword)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoKvTemplates'
     deploymentOutputs: 'kvOutputs'
+- task: AzureKeyVault@2
+  inputs:
+    azureSubscription: 'templatesRepository'
+    KeyVaultName: $(mangoRestaurantKvName)
+    SecretsFilter: '*'
+    RunAsPreJob: true
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
     script: |
+      Write-Host $(AdministratorDbServerPassword)
       $json = '$(kvOutputs)' | convertfrom-json
       $value = $json.keyVaultId.value
       Write-Host "##vso[task.setvariable variable=keyVaultId;]$value"
       $value = $json.administratorDbServerLoginPasswordName.value
       Write-Host "##vso[task.setvariable variable=administratorDbServerLoginPasswordName;]$value"
   displayName: Parse Az Key Vault Output
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'templatesRepository'
+    subscriptionId: $(subscriptionId)
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: $(resourseGroup)
+    location: 'West Europe'
+    templateLocation: 'URL of the file'
+    csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/AzureSql/azureSqlServer.json'
+    overrideParameters: '-administratorLogin $(administratorLogin) -administratorLoginPassword $(AdministratorDbServerPassword) -productApiDbServerName $(productApiDbServerName) -startIpAddress  $(startIpAddress) -endIpAddress $(endIpAddress)'
+    deploymentMode: 'Incremental'
+  displayName: Deploy DB Server
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: Restore infrastructure template
   inputs:
