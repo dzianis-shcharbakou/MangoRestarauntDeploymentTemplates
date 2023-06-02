@@ -36,6 +36,16 @@ steps:
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoKvTemplates'
     deploymentOutputs: 'kvOutputs'
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      $json = '$(kvOutputs)' | convertfrom-json
+      $value = $json.keyVaultId.value
+      Write-Host "##vso[task.setvariable variable=keyVaultId;]$value"
+      $value = $json.administratorDbServerLoginPasswordName.value
+      Write-Host "##vso[task.setvariable variable=administratorDbServerLoginPasswordName;]$value"
+  displayName: Parse Az Key Vault Output
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: Restore infrastructure template
   inputs:
@@ -47,7 +57,7 @@ steps:
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/azuredeploy.json'
-    overrideParameters: '-administratorLogin $(administratorLogin) -administratorLoginPassword $(administratorLoginPassword) -productApiDbServerName $(productApiDbServerName) -sqlDBName $(sqlDBName) -serverfarmsMangoPlanName $(serverfarmsMangoPlanName) -sitesMangoProductApiDevName $(sitesMangoProductApiDevName) -storageAccountBlobContainerName $(productBlobContainerName) -startIpAddress $(startIpAddress) -endIpAddress $(endIpAddress)'
+    overrideParameters: '-administratorLogin $(administratorLogin) -vaultName $(mangoRestaurantKvName) -administratorDbServerPasswordName $(administratorDbServerLoginPasswordName) -vaultResourceGroupName MangoRestaurantKv -productApiDbServerName $(productApiDbServerName) -sqlDBName $(sqlDBName) -serverfarmsMangoPlanName $(serverfarmsMangoPlanName) -sitesMangoProductApiDevName $(sitesMangoProductApiDevName) -storageAccountBlobContainerName $(productBlobContainerName) -startIpAddress $(startIpAddress) -endIpAddress $(endIpAddress)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
     deploymentOutputs: 'armOutputs'
