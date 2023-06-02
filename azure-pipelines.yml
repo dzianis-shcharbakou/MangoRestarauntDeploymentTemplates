@@ -36,10 +36,17 @@ steps:
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoKvTemplates'
     deploymentOutputs: 'kvOutputs'
+- task: AzureKeyVault@2
+  inputs:
+    azureSubscription: 'templatesRepository'
+    KeyVaultName: $(mangoRestaurantKvName)
+    SecretsFilter: '*'
+    RunAsPreJob: true
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
     script: |
+      Write-Host $(AdministratorDbServerPassword)
       $json = '$(kvOutputs)' | convertfrom-json
       $value = $json.keyVaultId.value
       Write-Host "##vso[task.setvariable variable=keyVaultId;]$value"
