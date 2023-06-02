@@ -18,7 +18,11 @@
       "type": "string"
     },
     "tags": {
-      "type": "object"
+      "type": "object",
+      "defaultValue": {
+        "env": "dev",
+        "app": "productApi"
+      }
     },
     "location": {
       "type": "string",
