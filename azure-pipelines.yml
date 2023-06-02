@@ -55,6 +55,7 @@ steps:
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/AzureSql/azureSqlServer.json'
     overrideParameters: '-administratorLogin $(administratorLogin) -administratorLoginPassword $(AdministratorDbServerPassword) -productApiDbServerName $(productApiDbServerName) -startIpAddress  $(startIpAddress) -endIpAddress $(endIpAddress)'
     deploymentMode: 'Incremental'
+    deploymentName: 'DeployMangoDbServerTemplates'
     deploymentOutputs: 'dbServerOutputs'
   displayName: Deploy DB Server
 - task: PowerShell@2
@@ -68,7 +69,7 @@ steps:
       Write-Host "##vso[task.setvariable variable=administratorDbServerLoginPasswordName;]$value"
       $json = '$(dbServerOutputs)' | convertfrom-json
       $value = $json.connectionString.value
-      Write-Host "##vso[task.setvariable variable=productDbServerconnectionString;]$value"
+      Write-Host "##vso[task.setvariable variable=productDbServerConnectionString;]$value"
   displayName: Parse Az Key Vault Output and Db Output
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: Restore infrastructure template
@@ -81,10 +82,13 @@ steps:
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/azuredeploy.json'
-    overrideParameters: '-administratorLogin $(administratorLogin) -productApiDbServerName $(productApiDbServerName) -sqlDBName $(sqlDBName) -serverfarmsMangoPlanName $(serverfarmsMangoPlanName) -sitesMangoProductApiDevName $(sitesMangoProductApiDevName) -storageAccountBlobContainerName $(productBlobContainerName) -vaultName $(mangoRestaurantKvName) -administratorDbServerPasswordName $(administratorDbServerLoginPasswordName) -serverConnection $(productDbServerconnectionString)'
+    overrideParameters: '-administratorLogin $(administratorLogin) -productApiDbServerName $(productApiDbServerName) -sqlDBName $(sqlDBName) -serverfarmsMangoPlanName $(serverfarmsMangoPlanName) -sitesMangoProductApiDevName $(sitesMangoProductApiDevName) -storageAccountBlobContainerName $(productBlobContainerName) -vaultName $(mangoRestaurantKvName) -administratorDbServerPasswordName $env:administratorDbServerLoginPasswordName -serverConnection $env:productDbServerConnectionString'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
     deploymentOutputs: 'armOutputs'
+  env:
+    productDbServerConnectionString: $(productDbServerConnectionString)
+    administratorDbServerLoginPasswordName:  $(administratorDbServerLoginPasswordName)
 - checkout: otherrepo
 - task: PowerShell@2
   inputs:
