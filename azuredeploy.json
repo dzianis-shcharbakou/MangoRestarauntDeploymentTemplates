@@ -27,12 +27,12 @@
         "defaultValue": "mango-ProductApi-dev",
         "type": "string"
     },
-    "startIpAddress": {
-      "type": "string"
-    },
-    "endIpAddress": {
-      "type": "string"
-    },
+    // "startIpAddress": {
+    //   "type": "string"
+    // },
+    // "endIpAddress": {
+    //   "type": "string"
+    // },
     "storageAccountBlobContainerName": {
       "type": "string",
       "defaultValue": "mango-product",
@@ -85,45 +85,45 @@
     "userAssignedIdentity": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{2}', subscription().subscriptionId, resourceGroup().name, parameters('productIdentityName'))]"
   },
   "resources": [
-    {
-      "name": "sqlServer",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "relativePath": "./AzureSql/azureSqlServer.json"
-        },
-        "parameters": {
-          "administratorLogin": {
-            "value": "[parameters('administratorLogin')]"
-          },
-          "administratorLoginPassword": {
-            "reference": {
-              "keyVault": {
-                "id": "[resourceId(subscription().subscriptionId, resourceGroup().name, 'Microsoft.KeyVault/vaults', parameters('vaultName'))]"
-              },
-              "secretName": "[parameters('administratorDbServerPasswordName')]"
-            }
-          },
-          "productApiDbServerName": {
-            "value": "[parameters('productApiDbServerName')]"
-          },
-          "location": {
-            "value": "[variables('location')]"
-          },
-          "startIpAddress": {
-            "value": "[parameters('startIpAddress')]"
-          },
-          "endIpAddress": {
-            "value": "[parameters('endIpAddress')]"
-          },
-          "tags": {
-            "value": "[parameters('tags')]"
-          }
-        }
-      }
-    },
+    // {
+    //   "name": "sqlServer",
+    //   "type": "Microsoft.Resources/deployments",
+    //   "apiVersion": "2022-09-01",
+    //   "properties": {
+    //     "mode": "Incremental",
+    //     "templateLink": {
+    //       "relativePath": "./AzureSql/azureSqlServer.json"
+    //     },
+    //     "parameters": {
+    //       "administratorLogin": {
+    //         "value": "[parameters('administratorLogin')]"
+    //       },
+    //       "administratorLoginPassword": {
+    //         "reference": {
+    //           "keyVault": {
+    //             "id": "[resourceId(subscription().subscriptionId, resourceGroup().name, 'Microsoft.KeyVault/vaults', parameters('vaultName'))]"
+    //           },
+    //           "secretName": "[parameters('administratorDbServerPasswordName')]"
+    //         }
+    //       },
+    //       "productApiDbServerName": {
+    //         "value": "[parameters('productApiDbServerName')]"
+    //       },
+    //       "location": {
+    //         "value": "[variables('location')]"
+    //       },
+    //       "startIpAddress": {
+    //         "value": "[parameters('startIpAddress')]"
+    //       },
+    //       "endIpAddress": {
+    //         "value": "[parameters('endIpAddress')]"
+    //       },
+    //       "tags": {
+    //         "value": "[parameters('tags')]"
+    //       }
+    //     }
+    //   }
+    // },
     {
       "name": "serverFarm",
       "type": "Microsoft.Resources/deployments",
@@ -230,10 +230,7 @@
             "value": "[parameters('productApiDbServerName')]"
           }
         }
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', 'sqlServer')]"
-      ]
+      }
     },
     {
       "type": "Microsoft.KeyVault/vaults/secrets",
