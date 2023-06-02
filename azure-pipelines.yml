@@ -28,7 +28,7 @@ steps:
     azureResourceManagerConnection: 'templatesRepository'
     subscriptionId: $(subscriptionId)
     action: 'Create Or Update Resource Group'
-    resourceGroupName: 'MangoRestaurantKv'
+    resourceGroupName: $(resourseGroup)
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/AppConfiguration/azureKeyVault.json'
