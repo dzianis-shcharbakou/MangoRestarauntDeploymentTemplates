@@ -16,13 +16,6 @@
     "adUserId": {
       "type": "string"
     },
-    "productDbConnectionStringName": {
-      "type": "string",
-      "defaultValue": "ProductDbConnectionDev"
-    },
-    "productDbConnectionStringValue": {
-      "type": "securestring"
-    },
     "administratorDbServerLoginPassword": {
       "type": "secureString",
       "metadata": {
