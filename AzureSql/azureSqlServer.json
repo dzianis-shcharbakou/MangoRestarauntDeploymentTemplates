@@ -11,9 +11,6 @@
     "productApiDbServerName": {
       "type": "string"
     },
-    "location": {
-      "type": "string"
-    },
     "startIpAddress": {
       "type": "string"
     },
@@ -24,12 +21,15 @@
       "type": "object"
     }
   },
+  "variables": {
+    "location": "[resourceGroup().location]"
+  },
   "resources": [
   {
       "type": "Microsoft.Sql/servers",
       "apiVersion": "2022-05-01-preview",
       "name": "[parameters('productApiDbServerName')]",
-      "location": "[parameters('location')]",
+      "location": "[variables('location')]",
       "properties": {
         "administratorLogin": "[parameters('administratorLogin')]",
         "administratorLoginPassword": "[parameters('administratorLoginPassword')]",

@@ -8,16 +8,13 @@
     "administratorLoginPassword": {
       "reference": {
         "keyVault": {
-          "id": "[resourceId(subscription().subscriptionId, resourceGroup().name, 'Microsoft.KeyVault/vaults', mango-restaurant-kv29)]"
+          "id": "/subscriptions/3b17d851-4b89-4b9f-b4f4-99ccab0432be/resourceGroups/MangoRestaurantMicroservices/providers/Microsoft.KeyVault/vaults/mango-restaurant-kv29"
         },
         "secretName": "AdministratorDbServerPassword"
       }
     },
     "productApiDbServerName": {
         "value": "mango-service-productapidbserver"
-    },
-    "location": {
-        "value": "[resourceGroup().location]"
     },
     "startIpAddress": {
         "value": "79.184.127.151"
@@ -33,6 +30,10 @@
     }
   }
 }
+
+
+
+
 
 
 
