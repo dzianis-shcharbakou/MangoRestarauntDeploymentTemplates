@@ -38,7 +38,7 @@
           "name": "Standard"
         },
         "tenantId": "[parameters('tenantId')]",
-        "enabledForDeployment": false,
+        "enabledForDeployment": true,
         "enabledForDiskEncryption": false,
         "enabledForTemplateDeployment": true,
         "enableSoftDelete": true,
