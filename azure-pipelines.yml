@@ -73,7 +73,7 @@ steps:
       $value = $json.keyVaultId.value
       Write-Host "##vso[task.setvariable variable=keyVaultId;]$value"
       $value = $json.administratorDbServerLoginPasswordName.value
-      Write-Host "##vso[task.setvariable variable=administratorDbServerLoginPasswordName;]$value"
+      Write-Host "##vso[task.setvariable variable=ADMINISTRATOR_DB_SERVER_LOGIN_PASSWORD_NAME;]$value"
       $json = '$(dbServerOutputs)' | convertfrom-json
       $value = $json.connectionString.value
       Write-Host "##vso[task.setvariable variable=PRODUCT_DB_SERVER_CONNECTION_STRING;]$value"
@@ -96,7 +96,7 @@ steps:
 -sitesMangoProductApiDevName $(sitesMangoProductApiDevName) 
 -storageAccountBlobContainerName $(productBlobContainerName) 
 -vaultName $(mangoRestaurantKvName) 
--administratorDbServerPasswordName ''$(administratorDbServerLoginPasswordName)'' 
+-administratorDbServerPasswordName ''$(ADMINISTRATOR_DB_SERVER_LOGIN_PASSWORD_NAME)'' 
 -serverConnection ''$(PRODUCT_DB_SERVER_CONNECTION_STRING)'''
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
