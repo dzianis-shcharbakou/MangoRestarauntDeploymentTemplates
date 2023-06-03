@@ -89,7 +89,7 @@
           {
             "key": "ProductBlobStorageName",
             "value": "[parameters('storageAccountName')]",
-            "label": "productDev",
+            "label": "Development",
             "tag": {
               "environment": "dev",
               "app": "product"
@@ -99,7 +99,7 @@
           {
             "key": "ConnectionStrings:Dev:ProductDbConnectionDev",
             "value": "[concat('https://', parameters('vaultName'),'.vault.azure.net/secrets/ProductDbConnectionDev')]",
-            "label": "productDev",
+            "label": "Development",
             "tag": {
               "environment": "dev",
               "app": "product"
