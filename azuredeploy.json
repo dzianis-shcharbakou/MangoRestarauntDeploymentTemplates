@@ -84,16 +84,18 @@
     "sqlDBNameCalculated": "[format('{0}/{1}', parameters('productApiDbServerName'), parameters('sqlDBName'))]",
     "location": "[resourceGroup().location]",
     "userAssignedIdentity": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{2}', subscription().subscriptionId, resourceGroup().name, parameters('productIdentityName'))]",
-    "productBlobStorageNameConfiguration": {
-      "key": "ProductBlobStorageName",
-      "value": "[parameters('storageAccountName')]",
-      "label": "productDev",
-      "tag": {
-        "environment": "dev",
-        "app": "product"
-      },
-      "contentType": "application/vnd.microsoft.appconfig.ff+json;charset=utf-8"
-    }
+    "appConfigurationKeyValues": [
+      {
+        "key": "ProductBlobStorageName",
+        "value": "[parameters('storageAccountName')]",
+        "label": "productDev",
+        "tag": {
+          "environment": "dev",
+          "app": "product"
+        },
+        "contentType": "application/vnd.microsoft.appconfig.ff+json;charset=utf-8"
+      }
+    ]
   },
   "resources": [
     {
@@ -162,9 +164,7 @@
           "tags": {
             "value": "[parameters('tags')]"
           },
-          "keyData": [
-            "[variables('productBlobStorageNameConfiguration')]"
-          ]
+          "keyData": "[variables('appConfigurationKeyValues')]"
         }
       },
       "dependsOn": [
