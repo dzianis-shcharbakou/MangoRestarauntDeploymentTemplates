@@ -233,11 +233,15 @@
           },
           "tags": {
             "value": "[parameters('tags')]"
+          },
+          "appConfigConnectionString": {
+            "value": "[reference('appConfiguration').outputs.connectionString.value]"
           }
         }
       },
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'serverFarm')]",
+        "[resourceId('Microsoft.Resources/deployments', 'appConfiguration')]",
         "[resourceId('Microsoft.Resources/deployments', 'productIdentity')]"
       ]
     },

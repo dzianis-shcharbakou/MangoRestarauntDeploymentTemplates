@@ -11,11 +11,14 @@
     "location": {
       "type": "string"
     },
-      "productIdentity": {
+    "productIdentity": {
       "type": "string"
     },
     "tags": {
       "type": "object"
+    },
+    "appConfigConnectionString": {
+      "type": "string"
     }
   },
   "resources": [
@@ -40,6 +43,18 @@
         "clientAffinityEnabled": true
       },
       "tags": "[parameters('tags')]"
+    },
+    {
+    "apiVersion": "2018-02-01",
+    "name": "[concat(parameters('sitesMangoProductApiDevName'), '/appsettings')]",
+    "type": "Microsoft.Web/sites/config",
+    "location": "[resourceGroup().location]",
+    "dependsOn": [
+        "[resourceId('Microsoft.Web/Sites', parameters('sitesMangoProductApiDevName'))]"
+    ],
+    "properties": {
+        "ConnectionStrings:AppConfig": "[parameters('appConfigConnectionString')]"
     }
+}
   ]
 }
