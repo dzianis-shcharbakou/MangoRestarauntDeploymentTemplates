@@ -24,6 +24,25 @@
       "type": "string"
     }
   },
+ "functions": [
+  {
+    "namespace": "calculations",
+    "members": {
+      "removeSingleQuotes": {
+        "parameters": [
+          {
+            "name": "originalString",
+            "type": "string"
+          }
+        ],
+        "output": {
+          "type": "string",
+          "value": "[if(and(equals(first(parameters('originalString')),''''), equals(last(parameters('originalString')),'''')), substring(parameters('originalString'), 1, sub(length(parameters('originalString')), 2)), parameters('originalString'))]"
+        }
+      }
+    }
+  }
+],
   "variables": {},
   "resources": [
     {
@@ -53,7 +72,7 @@
   "outputs": {
     "connectionString": {
         "type": "string",
-        "value": "[concat(parameters('serverConnection'), 'Initial Catalog=', parameters('sqlDBName'), ';')]"
+        "value": "[concat(calculations.removeSingleQuotes(parameters('serverConnection')), 'Initial Catalog=', parameters('sqlDBName'), ';')]"
     }
   }
 }
