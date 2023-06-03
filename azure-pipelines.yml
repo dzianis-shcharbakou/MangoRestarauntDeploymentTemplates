@@ -98,7 +98,7 @@ steps:
 -storageAccountBlobContainerName $(productBlobContainerName) 
 -vaultName $(mangoRestaurantKvName) 
 -administratorDbServerPasswordName $(ADMINISTRATOR_DB_SERVER_LOGIN_PASSWORD_NAME)
--serverConnection $($(productDerverConnectionString))'
+-serverConnection ''$(productDerverConnectionString)'''
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
     deploymentOutputs: 'armOutputs'
