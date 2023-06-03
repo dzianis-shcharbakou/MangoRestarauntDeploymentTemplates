@@ -13,6 +13,7 @@ variables:
 - group: ProductApi-dev
 - name: isBlobStorageContainImages
   value: true
+- name: productDerverConnectionString
 
 resources:
   repositories:
@@ -32,7 +33,10 @@ steps:
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/AppConfiguration/azureKeyVault.json'
-    overrideParameters: '-adUserId $(upn) -mangoRestaurantKvName $(mangoRestaurantKvName) -administratorDbServerLoginPasswordName $(administratorDbServerLoginPasswordName) -administratorDbServerLoginPassword $(administratorLoginPassword)'
+    overrideParameters: '-adUserId $(upn) 
+-mangoRestaurantKvName $(mangoRestaurantKvName) 
+-administratorDbServerLoginPasswordName $(administratorDbServerLoginPasswordName) 
+-administratorDbServerLoginPassword $(administratorLoginPassword)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoKvTemplates'
     deploymentOutputs: 'kvOutputs'
@@ -53,7 +57,11 @@ steps:
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/AzureSql/azureSqlServer.json'
-    overrideParameters: '-administratorLogin $(administratorLogin) -administratorLoginPassword $(AdministratorDbServerPassword) -productApiDbServerName $(productApiDbServerName) -startIpAddress  $(startIpAddress) -endIpAddress $(endIpAddress)'
+    overrideParameters: '-administratorLogin $(administratorLogin) 
+-administratorLoginPassword $(AdministratorDbServerPassword) 
+-productApiDbServerName $(productApiDbServerName) 
+-startIpAddress  $(startIpAddress) 
+-endIpAddress $(endIpAddress)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoDbServerTemplates'
     deploymentOutputs: 'dbServerOutputs'
@@ -66,10 +74,10 @@ steps:
       $value = $json.keyVaultId.value
       Write-Host "##vso[task.setvariable variable=keyVaultId;]$value"
       $value = $json.administratorDbServerLoginPasswordName.value
-      Write-Host "##vso[task.setvariable variable=administratorDbServerLoginPasswordName;]$value"
+      Write-Host "##vso[task.setvariable variable=ADMINISTRATOR_DB_SERVER_LOGIN_PASSWORD_NAME;]$value"
       $json = '$(dbServerOutputs)' | convertfrom-json
       $value = $json.connectionString.value
-      Write-Host "##vso[task.setvariable variable=productDbServerConnectionString;]$value"
+      Write-Host "##vso[task.setvariable variable=productDerverConnectionString;]$value"
   displayName: Parse Az Key Vault Output and Db Output
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: Restore infrastructure template
@@ -82,13 +90,18 @@ steps:
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/azuredeploy.json'
-    overrideParameters: '-administratorLogin $(administratorLogin) -productApiDbServerName $(productApiDbServerName) -sqlDBName $(sqlDBName) -serverfarmsMangoPlanName $(serverfarmsMangoPlanName) -sitesMangoProductApiDevName $(sitesMangoProductApiDevName) -storageAccountBlobContainerName $(productBlobContainerName) -vaultName $(mangoRestaurantKvName) -administratorDbServerPasswordName $env:administratorDbServerLoginPasswordName -serverConnection $env:productDbServerConnectionString'
+    overrideParameters: '-administratorLogin $(administratorLogin) 
+-productApiDbServerName $(productApiDbServerName) 
+-sqlDBName $(sqlDBName) 
+-serverfarmsMangoPlanName $(serverfarmsMangoPlanName) 
+-sitesMangoProductApiDevName $(sitesMangoProductApiDevName) 
+-storageAccountBlobContainerName $(productBlobContainerName) 
+-vaultName $(mangoRestaurantKvName) 
+-administratorDbServerPasswordName $(ADMINISTRATOR_DB_SERVER_LOGIN_PASSWORD_NAME)
+-serverConnection ''$(productDerverConnectionString)'''
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
     deploymentOutputs: 'armOutputs'
-  env:
-    productDbServerConnectionString: $(productDbServerConnectionString)
-    administratorDbServerLoginPasswordName:  $(administratorDbServerLoginPasswordName)
 - checkout: otherrepo
 - task: PowerShell@2
   inputs:
