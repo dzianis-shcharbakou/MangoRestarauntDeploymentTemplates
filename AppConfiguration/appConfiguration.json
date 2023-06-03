@@ -13,6 +13,9 @@
     },
     "tags": {
       "type": "object"
+    },
+    "keyData": {
+      "type": "array"
     }
   },
   "variables": {
@@ -38,6 +41,23 @@
         "enablePurgeProtection": false
       },
       "tags": "[parameters('tags')]"
+    },
+    {
+      "type": "Microsoft.AppConfiguration/configurationStores/keyValues",
+      "apiVersion": "2023-03-01",
+      "name": "[concat(parameters('appConfigurationName'),'/', if(contains(parameters('keyData')[copyIndex()], 'label'), format('{0}${1}', parameters('keyData')[copyIndex()].key, parameters('keyData')[copyIndex()].label), parameters('keyData')[copyIndex()].key))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.AppConfiguration/configurationStores', parameters('appConfigurationName'))]"
+      ],
+      "copy": {
+          "name": "keyValueCopy",
+          "count": "[length(parameters('keyData'))]"
+      },
+      "properties": {
+        "value": "[parameters('keyData')[copyIndex()].value]",
+        "contentType": "[if(contains(parameters('keyData')[copyIndex()], 'contentType'), parameters('keyData')[copyIndex()].contentType, json('null'))]",
+        "tags": "[if(contains(parameters('keyData')[copyIndex()], 'tag'), parameters('keyData')[copyIndex()].tag, json('null'))]"
+      }
     }
   ],
   "outputs": {

@@ -19,6 +19,9 @@
     },
     "appConfigConnectionString": {
       "type": "string"
+    },
+    "environment": {
+      "type": "string"
     }
   },
   "resources": [
@@ -57,6 +60,18 @@
           "value": "[parameters('appConfigConnectionString')]",
           "type": "Custom"
         }
+      }
+    },
+    {
+      "apiVersion": "2022-03-01",
+      "name": "[concat(parameters('sitesMangoProductApiDevName'), '/appsettings')]",
+      "type": "Microsoft.Web/sites/config",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+          "[resourceId('Microsoft.Web/Sites', parameters('sitesMangoProductApiDevName'))]"
+      ],
+      "properties": {
+        "ASPNETCORE_ENVIRONMENT": "[parameters('environment')]"
       }
     }
   ]

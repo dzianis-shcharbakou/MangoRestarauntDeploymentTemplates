@@ -74,6 +74,10 @@
     },
     "serverConnection": {
       "type": "string"
+    },
+    "environment": {
+      "type": "string",
+      "defaultValue": "Development"
     }
   },
   "variables": {
@@ -147,7 +151,18 @@
           },
           "tags": {
             "value": "[parameters('tags')]"
-          }
+          },
+          "keyData": [
+            {
+              "key": "ProductBlobStorageName",
+              "value": "[parameters('storageAccountName')]",
+              "tag": {
+                "environment": "dev",
+                "app": "product"
+              },
+              "contentType": "application/vnd.microsoft.appconfig.ff+json;charset=utf-8"
+            }
+          ]
         }
       },
       "dependsOn": [
@@ -236,6 +251,9 @@
           },
           "appConfigConnectionString": {
             "value": "[reference('appConfiguration').outputs.connectionString.value]"
+          },
+          "environment": {
+            "value": "[parameters('environment')]"
           }
         }
       },
