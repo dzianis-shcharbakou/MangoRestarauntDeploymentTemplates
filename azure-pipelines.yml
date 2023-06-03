@@ -87,7 +87,6 @@ steps:
     deploymentName: 'DeployMangoTemplates'
     deploymentOutputs: 'armOutputs'
   env:
-    productDbServerConnectionString: '$(productDbServerConnectionString)'
     administratorDbServerLoginPasswordName: '$(administratorDbServerLoginPasswordName)'
 - checkout: otherrepo
 - task: PowerShell@2
