@@ -3,13 +3,19 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "productIdentityName": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "mango-product-identity"
     },
     "location": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
     },
     "tags": {
-      "type": "object"
+      "type": "object",
+      "defaultValue": {
+        "env": "dev",
+        "app": "productApi"
+      }
     }
   },
   "resources": [
