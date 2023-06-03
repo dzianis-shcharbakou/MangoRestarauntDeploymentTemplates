@@ -32,7 +32,10 @@ steps:
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/AppConfiguration/azureKeyVault.json'
-    overrideParameters: '-adUserId $(upn) -mangoRestaurantKvName $(mangoRestaurantKvName) -administratorDbServerLoginPasswordName $(administratorDbServerLoginPasswordName) -administratorDbServerLoginPassword $(administratorLoginPassword)'
+    overrideParameters: '-adUserId $(upn) 
+-mangoRestaurantKvName $(mangoRestaurantKvName) 
+-administratorDbServerLoginPasswordName $(administratorDbServerLoginPasswordName) 
+-administratorDbServerLoginPassword $(administratorLoginPassword)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoKvTemplates'
     deploymentOutputs: 'kvOutputs'
@@ -53,7 +56,11 @@ steps:
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/AzureSql/azureSqlServer.json'
-    overrideParameters: '-administratorLogin $(administratorLogin) -administratorLoginPassword $(AdministratorDbServerPassword) -productApiDbServerName $(productApiDbServerName) -startIpAddress  $(startIpAddress) -endIpAddress $(endIpAddress)'
+    overrideParameters: '-administratorLogin $(administratorLogin) 
+-administratorLoginPassword $(AdministratorDbServerPassword) 
+-productApiDbServerName $(productApiDbServerName) 
+-startIpAddress  $(startIpAddress) 
+-endIpAddress $(endIpAddress)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoDbServerTemplates'
     deploymentOutputs: 'dbServerOutputs'
@@ -82,7 +89,15 @@ steps:
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/azuredeploy.json'
-    overrideParameters: '-administratorLogin $(administratorLogin) -productApiDbServerName $(productApiDbServerName) -sqlDBName $(sqlDBName) -serverfarmsMangoPlanName $(serverfarmsMangoPlanName) -sitesMangoProductApiDevName $(sitesMangoProductApiDevName) -storageAccountBlobContainerName $(productBlobContainerName) -vaultName $(mangoRestaurantKvName) -administratorDbServerPasswordName AdministratorDbServerPassword -serverConnection $env:PRODUCT_DB_SERVER_CONNECTION_STRING'
+    overrideParameters: '-administratorLogin $(administratorLogin) 
+-productApiDbServerName $(productApiDbServerName) 
+-sqlDBName $(sqlDBName) 
+-serverfarmsMangoPlanName $(serverfarmsMangoPlanName) 
+-sitesMangoProductApiDevName $(sitesMangoProductApiDevName) 
+-storageAccountBlobContainerName $(productBlobContainerName) 
+-vaultName $(mangoRestaurantKvName) 
+-administratorDbServerPasswordName AdministratorDbServerPassword 
+-serverConnection $(PRODUCT_DB_SERVER_CONNECTION_STRING)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
     deploymentOutputs: 'armOutputs'
