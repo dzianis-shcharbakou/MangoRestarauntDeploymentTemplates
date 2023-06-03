@@ -82,12 +82,13 @@ steps:
     location: 'West Europe'
     templateLocation: 'URL of the file'
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/azuredeploy.json'
-    overrideParameters: '-administratorLogin $(administratorLogin) -productApiDbServerName $(productApiDbServerName) -sqlDBName $(sqlDBName) -serverfarmsMangoPlanName $(serverfarmsMangoPlanName) -sitesMangoProductApiDevName $(sitesMangoProductApiDevName) -storageAccountBlobContainerName $(productBlobContainerName) -vaultName $(mangoRestaurantKvName) -administratorDbServerPasswordName AdministratorDbServerPassword -serverConnection $(productDbServerConnectionString)'
+    overrideParameters: '-administratorLogin $(administratorLogin) -productApiDbServerName $(productApiDbServerName) -sqlDBName $(sqlDBName) -serverfarmsMangoPlanName $(serverfarmsMangoPlanName) -sitesMangoProductApiDevName $(sitesMangoProductApiDevName) -storageAccountBlobContainerName $(productBlobContainerName) -vaultName $(mangoRestaurantKvName) -administratorDbServerPasswordName AdministratorDbServerPassword -serverConnection $env:productDbServerConnectionString'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
     deploymentOutputs: 'armOutputs'
   env:
-    administratorDbServerLoginPasswordName:  $(administratorDbServerLoginPasswordName)
+    productDbServerConnectionString: '$(productDbServerConnectionString)'
+    administratorDbServerLoginPasswordName: '$(administratorDbServerLoginPasswordName)''
 - checkout: otherrepo
 - task: PowerShell@2
   inputs:
