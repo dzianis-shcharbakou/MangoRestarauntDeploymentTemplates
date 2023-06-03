@@ -15,7 +15,39 @@
       "type": "object"
     },
     "keyData": {
-      "type": "array"
+      "type": "array",
+      "defaultValue": [
+        {
+          "key": "key01_name", // Required
+          "value": "key01_value", // Optional
+          "tag": { // Optional
+            "tag01_name": "tag01_value",
+            "tag02_name": "tag02_value"
+          },
+          "contentType": "key01_contentType" // Optional
+        },
+        {
+          "key": "key02_name", // Required
+          "value": "key02_value", // Optional
+          "label": "key02_label01",
+          "tag": { // Optional
+            "tag01_name": "tag01_value",
+            "tag02_name": "tag02_value"
+          },
+          "contentType": "key02_contentType" // Optional
+        },
+        {
+          "key": "key02_name", // Required
+          "value": "key02_value", // Optional
+          "label": "key02_label02",
+          "tag": { // Optional
+            "tag01_name": "tag01_value",
+            "tag02_name": "tag02_value"
+          },
+          "contentType": "key02_contentType" // Optional
+        }
+      ],
+      "metadata": { "description": "Array of Objects that contain the key name, value, tag and contentType" }
     }
   },
   "variables": {

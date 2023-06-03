@@ -156,6 +156,7 @@
             {
               "key": "ProductBlobStorageName",
               "value": "[parameters('storageAccountName')]",
+              "label": "productDev",
               "tag": {
                 "environment": "dev",
                 "app": "product"
