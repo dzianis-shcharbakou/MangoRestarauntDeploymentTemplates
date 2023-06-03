@@ -21,19 +21,19 @@ resources:
     name: LearnDevOps/MangoRestaurantItems
 steps:
 - checkout: self
-- task: AzureResourceManagerTemplateDeployment@3
-  displayName: Deploy User Assigned Identities
-  inputs:
-    deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'templatesRepository'
-    subscriptionId: $(subscriptionId)
-    action: 'Create Or Update Resource Group'
-    resourceGroupName: $(resourseGroup)
-    location: 'West Europe'
-    templateLocation: 'URL of the file'
-    csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/ManagedIdentity/productIdentity.json'
-    deploymentMode: 'Incremental'
-    deploymentName: 'DeployMangoProductIdentityTemplates'
+# - task: AzureResourceManagerTemplateDeployment@3
+#   displayName: Deploy User Assigned Identities
+#   inputs:
+#     deploymentScope: 'Resource Group'
+#     azureResourceManagerConnection: 'templatesRepository'
+#     subscriptionId: $(subscriptionId)
+#     action: 'Create Or Update Resource Group'
+#     resourceGroupName: $(resourseGroup)
+#     location: 'West Europe'
+#     templateLocation: 'URL of the file'
+#     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/ManagedIdentity/productIdentity.json'
+#     deploymentMode: 'Incremental'
+#     deploymentName: 'DeployMangoProductIdentityTemplates'
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: Deploy Az Key Vault
   inputs:
