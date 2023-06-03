@@ -95,6 +95,16 @@
               "app": "product"
             },
             "contentType": "application/vnd.microsoft.appconfig.ff+json;charset=utf-8"
+          },
+          {
+            "key": "ConnectionStrings:Dev:ProductDbConnectionDev",
+            "value": "[concat('https://', parameters('vaultName'),'.vault.azure.net/secrets/ProductDbConnectionDev')]",
+            "label": "productDev",
+            "tag": {
+              "environment": "dev",
+              "app": "product"
+            },
+            "contentType": "aapplication/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8"
           }
       ]
     }
