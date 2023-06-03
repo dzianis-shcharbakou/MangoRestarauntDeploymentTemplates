@@ -13,6 +13,7 @@ variables:
 - group: ProductApi-dev
 - name: isBlobStorageContainImages
   value: true
+- name: productDerverConnectionString
 
 resources:
   repositories:
@@ -76,7 +77,7 @@ steps:
       Write-Host "##vso[task.setvariable variable=ADMINISTRATOR_DB_SERVER_LOGIN_PASSWORD_NAME;]$value"
       $json = '$(dbServerOutputs)' | convertfrom-json
       $value = $json.connectionString.value
-      Write-Host "##vso[task.setvariable variable=PRODUCT_DB_SERVER_CONNECTION_STRING;]$value"
+      Write-Host "##vso[task.setvariable variable=productDerverConnectionString;]$value"
   displayName: Parse Az Key Vault Output and Db Output
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: Restore infrastructure template
@@ -97,7 +98,7 @@ steps:
 -storageAccountBlobContainerName $(productBlobContainerName) 
 -vaultName $(mangoRestaurantKvName) 
 -administratorDbServerPasswordName $(ADMINISTRATOR_DB_SERVER_LOGIN_PASSWORD_NAME)
--serverConnection $(PRODUCT_DB_SERVER_CONNECTION_STRING)'
+-serverConnection $(productDerverConnectionString)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
     deploymentOutputs: 'armOutputs'
