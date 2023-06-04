@@ -84,42 +84,38 @@
     "sqlDBNameCalculated": "[format('{0}/{1}', parameters('productApiDbServerName'), parameters('sqlDBName'))]",
     "location": "[resourceGroup().location]",
     "userAssignedIdentity": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{2}', subscription().subscriptionId, resourceGroup().name, parameters('productIdentityName'))]",
-    "appConfigurationKeyValues": {
-      "value": [
-        {
-          "key": "ProductBlobStorageName",
-          "value": "[parameters('storageAccountName')]",
-          "label": "Development",
-          "tag": {
-            "environment": "dev",
-            "app": "product"
-          },
-          "contentType": "application/vnd.microsoft.appconfig.ff+json;charset=utf-8"
+    "appConfigurationKeyValues": [
+      {
+        "key": "ProductBlobStorageName",
+        "value": "[parameters('storageAccountName')]",
+        "label": "Development",
+        "tag": {
+          "environment": "dev",
+          "app": "product"
         },
-        {
-          "key": "ConnectionStrings:Dev:ProductDbConnectionDev",
-          "value": "[concat('https://', parameters('vaultName'),'.vault.azure.net/secrets/ProductDbConnectionDev')]",
-          "label": "Development",
-          "tag": {
-            "environment": "dev",
-            "app": "product"
-          },
-          "contentType": "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8"
-        }
-      ]
-    },
-    "keyVaultKeyValues": {
-      "value": [
-        {
-          "key": "ProductDbConnectionDev",
-          "value": "connectionString"
+        "contentType": "application/vnd.microsoft.appconfig.ff+json;charset=utf-8"
+      },
+      {
+        "key": "ConnectionStrings:Dev:ProductDbConnectionDev",
+        "value": "[concat('https://', parameters('vaultName'),'.vault.azure.net/secrets/ProductDbConnectionDev')]",
+        "label": "Development",
+        "tag": {
+          "environment": "dev",
+          "app": "product"
         },
-        {
-          "key": "ProductDbConnectionDevPipeline",
-          "value": "connectionStringForPipeline"
-        }
-      ]
-    }
+        "contentType": "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8"
+      }
+    ],
+    "keyVaultKeyValues": [
+      {
+        "key": "ProductDbConnectionDev",
+        "value": "connectionString"
+      },
+      {
+        "key": "ProductDbConnectionDevPipeline",
+        "value": "connectionStringForPipeline"
+      }
+    ]
   },
   "resources": [
     {
@@ -188,7 +184,9 @@
           "tags": {
             "value": "[parameters('tags')]"
           },
-          "keyData": "[variables('appConfigurationKeyValues')]"
+          "keyData": {
+            "value": "[variables('appConfigurationKeyValues')]"
+          }
         }
       },
       "dependsOn": [
