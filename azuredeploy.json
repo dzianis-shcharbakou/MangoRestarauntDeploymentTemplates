@@ -108,8 +108,7 @@
           }
       ]
     },
-    "keyVaultKeyValues": {
-        "value": [
+    "keyVaultKeyValues": [
           {
             "key": "ProductDbConnectionDev",
             "value": "connectionString"
@@ -119,7 +118,6 @@
             "value": "connectionStringForPipeline"
           }
       ]
-    }
   },
   "resources": [
     {
