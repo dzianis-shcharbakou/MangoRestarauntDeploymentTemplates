@@ -85,39 +85,41 @@
     "location": "[resourceGroup().location]",
     "userAssignedIdentity": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{2}', subscription().subscriptionId, resourceGroup().name, parameters('productIdentityName'))]",
     "appConfigurationKeyValues": {
-        "value": [
-          {
-            "key": "ProductBlobStorageName",
-            "value": "[parameters('storageAccountName')]",
-            "label": "Development",
-            "tag": {
-              "environment": "dev",
-              "app": "product"
-            },
-            "contentType": "application/vnd.microsoft.appconfig.ff+json;charset=utf-8"
+      "value": [
+        {
+          "key": "ProductBlobStorageName",
+          "value": "[parameters('storageAccountName')]",
+          "label": "Development",
+          "tag": {
+            "environment": "dev",
+            "app": "product"
           },
-          {
-            "key": "ConnectionStrings:Dev:ProductDbConnectionDev",
-            "value": "[concat('https://', parameters('vaultName'),'.vault.azure.net/secrets/ProductDbConnectionDev')]",
-            "label": "Development",
-            "tag": {
-              "environment": "dev",
-              "app": "product"
-            },
-            "contentType": "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8"
-          }
+          "contentType": "application/vnd.microsoft.appconfig.ff+json;charset=utf-8"
+        },
+        {
+          "key": "ConnectionStrings:Dev:ProductDbConnectionDev",
+          "value": "[concat('https://', parameters('vaultName'),'.vault.azure.net/secrets/ProductDbConnectionDev')]",
+          "label": "Development",
+          "tag": {
+            "environment": "dev",
+            "app": "product"
+          },
+          "contentType": "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8"
+        }
       ]
     },
-    "keyVaultKeyValues": [
-          {
-            "key": "ProductDbConnectionDev",
-            "value": "connectionString"
-          },
-          {
-            "key": "ProductDbConnectionDevPipeline",
-            "value": "connectionStringForPipeline"
-          }
+    "keyVaultKeyValues": {
+      "value": [
+        {
+          "key": "ProductDbConnectionDev",
+          "value": "connectionString"
+        },
+        {
+          "key": "ProductDbConnectionDevPipeline",
+          "value": "connectionStringForPipeline"
+        }
       ]
+    }
   },
   "resources": [
     {
@@ -191,7 +193,7 @@
       },
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'productIdentity')]",
-        "[resourceId('Microsoft.KeyVault/vaults/secrets', concat(parameters('vaultName'), '/ProductDbConnectionDev'))]"
+        "[resourceId('Microsoft.Resources/deployments', 'createSecrets')]"
       ]
     },
     {
@@ -237,24 +239,32 @@
       }
     },
     {
-      "type": "Microsoft.KeyVault/vaults/secrets",
-      "apiVersion": "2022-07-01",
-      "name": "[concat(parameters('vaultName'), '/', variables('keyVaultKeyValues')[copyIndex()].key)]",
-      "location": "[variables('location')]",
+      "name": "createSecrets",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "relativePath": "./AppConfiguration/addSecrets.json"
+        },
+        "parameters": {
+          "location": {
+            "value": "[variables('location')]"
+          },
+          "keyData": {
+            "value": "[variables('keyVaultKeyValues')]"
+          },
+          "vaultName": {
+            "value": "[parameters('vaultName')]"
+          },
+          "sqlOutput": {
+            "value": "[reference('sqlDb').outputs]"
+          }
+        }
+      },
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'sqlDb')]"
-      ],
-      "copy": {
-          "name": "keyValueCopy",
-          "count": "[length(variables('keyVaultKeyValues'))]"
-      },
-      "properties": {
-        "contentType": "securestring",
-        "value": "[reference('sqlDb').outputs[variables('keyVaultKeyValues')[copyIndex()].value].value]",
-        "attributes": {
-          "enabled": true
-        }
-      }
+      ]
     },
     {
       "name": "productApi",
