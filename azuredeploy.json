@@ -97,7 +97,7 @@
       },
       {
         "key": "ConnectionStrings:Dev:ProductDbConnectionDev",
-        "value": "[concat('https://', parameters('vaultName'),'.vault.azure.net/secrets/ProductDbConnectionDev')]",
+        "value": "[concat('uri:https://', parameters('vaultName'),'.vault.azure.net/secrets/ProductDbConnectionDev')]",
         "label": "Development",
         "tag": {
           "environment": "dev",
