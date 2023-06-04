@@ -109,21 +109,6 @@
         }
       }
     }
-    // ,
-    // {
-    //   "type": "Microsoft.Authorization/roleAssignments",
-    //   "apiVersion": "2022-04-01",
-    //   "name": "roleassignment",
-    //   "scope": "[concat('Microsoft.KeyVault/vaults', '/', concat(parameters('mangoRestaurantKvName')))]",
-    //   "dependsOn": [
-    //       "[resourceId('Microsoft.KeyVault/vaults', parameters('mangoRestaurantKvName'))]"
-    //   ],
-    //   "properties": {
-    //       "roleDefinitionId": "Owner",
-    //       "principalId": "[parameters('adUserId')]",
-    //       "principalType": "ServicePrincipal"
-    //   }
-    // }
   ],
   "outputs": {
     "keyVaultId": {
