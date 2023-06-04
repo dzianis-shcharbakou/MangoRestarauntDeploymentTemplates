@@ -48,7 +48,7 @@
 ],
   "variables": {
     "serverConnectionWithoutSingleQuotes": "[calculations.removeSingleQuotes(parameters('serverConnection'))]",
-    "serverConnectionWithoutSingleQuotesWithoutTcp": "[replace(variables('serverConnectionWithoutSingleQuotes'), 'tcp', '')]"
+    "serverConnectionWithoutSingleQuotesWithoutTcp": "[replace(variables('serverConnectionWithoutSingleQuotes'), 'tcp:', '')]"
   },
   "resources": [
     {
