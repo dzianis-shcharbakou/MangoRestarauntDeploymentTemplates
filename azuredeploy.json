@@ -104,7 +104,19 @@
               "environment": "dev",
               "app": "product"
             },
-            "contentType": "aapplication/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8"
+            "contentType": "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8"
+          }
+      ]
+    },
+    "keyVaultKeyValues": {
+        "value": [
+          {
+            "key": "ProductDbConnectionDev",
+            "value": "connectionString"
+          },
+          {
+            "key": "ProductDbConnectionDevPipeline",
+            "value": "connectionStringForPipeline"
           }
       ]
     }
@@ -193,8 +205,11 @@
           "relativePath": "./AzureSql/azureSqlDb.json"
         },
         "parameters": {
-          "sqlDBName": {
+          "sqlDBFullName": {
             "value": "[variables('sqlDBNameCalculated')]"
+          },
+          "sqlDBName": {
+            "value": "[parameters('sqlDBName')]"
           },
           "location": {
             "value": "[variables('location')]"
@@ -225,14 +240,18 @@
     {
       "type": "Microsoft.KeyVault/vaults/secrets",
       "apiVersion": "2022-07-01",
-      "name": "[concat(parameters('vaultName'), '/ProductDbConnectionDev')]",
+      "name": "[concat(parameters('vaultName'), '/', variables('keyVaultKeyValues')[copyIndex()].key)]",
       "location": "[variables('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'sqlDb')]"
       ],
+      "copy": {
+          "name": "keyValueCopy",
+          "count": "[length(variables('keyVaultKeyValues'))]"
+      },
       "properties": {
         "contentType": "securestring",
-        "value": "[reference('sqlDb').outputs.connectionString.value]",
+        "value": "[reference('sqlDb').outputs[variables('keyVaultKeyValues')[copyIndex()].value].value]",
         "attributes": {
           "enabled": true
         }

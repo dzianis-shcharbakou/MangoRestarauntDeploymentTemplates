@@ -2,6 +2,9 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "sqlDBFullName": {
+      "type": "string"
+    },
     "sqlDBName": {
       "type": "string"
     },
@@ -43,12 +46,15 @@
     }
   }
 ],
-  "variables": {},
+  "variables": {
+    "serverConnectionWithoutSingleQuotes": "[calculations.removeSingleQuotes(parameters('serverConnection'))]",
+    "serverConnectionWithoutSingleQuotesWithoutTcp": "[replace(variables('serverConnectionWithoutSingleQuotes'), 'tcp', indexOf(variables('serverConnectionWithoutSingleQuotes'), 'tcp'))]"
+  },
   "resources": [
     {
       "type": "Microsoft.Sql/servers/databases",
       "apiVersion": "2022-05-01-preview",
-      "name": "[parameters('sqlDBName')]",
+      "name": "[parameters('sqlDBFullName')]",
       "location": "[parameters('location')]",
       "sku": {
         "name": "Basic",
@@ -71,8 +77,12 @@
   ],
   "outputs": {
     "connectionString": {
-        "type": "string",
-        "value": "[concat(calculations.removeSingleQuotes(parameters('serverConnection')), 'Initial Catalog=', parameters('sqlDBName'), ';')]"
+      "type": "string",
+      "value": "[concat(variables('serverConnectionWithoutSingleQuotes'), 'Initial Catalog=', parameters('sqlDBName'), ';')]"
+    },
+    "connectionStringForPipeline": {
+      "type": "string",
+      "value": "[concat(variables('serverConnectionWithoutSingleQuotesWithoutTcp'), 'Initial Catalog=', parameters('sqlDBName'), ';')]"
     }
   }
 }
