@@ -190,7 +190,8 @@
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', 'productIdentity')]"
+        "[resourceId('Microsoft.Resources/deployments', 'productIdentity')]",
+        "[resourceId('Microsoft.KeyVault/vaults/secrets', concat(parameters('vaultName'), '/ProductDbConnectionDev'))]"
       ]
     },
     {
