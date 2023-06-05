@@ -14,9 +14,6 @@
       "type": "Microsoft.KeyVault/vaults/accessPolicies",
       "apiVersion": "2022-07-01",
       "name": "[concat(parameters('mangoRestaurantKvName'), '/add')]",
-      "dependsOn": [
-          "[resourceId('Microsoft.KeyVault/vaults', parameters('mangoRestaurantKvName'))]"
-      ],
       "properties": {
         "accessPolicies": [
           {
