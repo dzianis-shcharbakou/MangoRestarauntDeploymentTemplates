@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "mangoRestaurantKvName": {
+      "type": "string"
+    },
+    "assignedIdentityClientId": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+    "type": "Microsoft.KeyVault/vaults/accessPolicies",
+    "apiVersion": "2022-07-01",
+    "name": "[concat(parameters('mangoRestaurantKvName'), '/add')]",
+    "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', parameters('mangoRestaurantKvName'))]"
+    ],
+    "properties": {
+        "accessPolicies": [
+            {
+                "tenantId": "[subscription().tenantId]",
+                "objectId": "[reference(parameters('assignedIdentityClientId')).principalId]",
+                "permissions": {
+                    "secrets": [
+                        "get",
+                        "list"
+                    ]
+                }
+            }
+        ]
+    }
+}
+  ]
+}
