@@ -16,12 +16,6 @@
     "productApiDbServerName": {
         "value": "mango-service-productapidbserver"
     },
-    "startIpAddress": {
-        "value": "79.184.127.151"
-    },
-    "endIpAddress": {
-      "value": "79.184.127.151"
-    },
     "tags": {
       "value": {
         "env": "dev",

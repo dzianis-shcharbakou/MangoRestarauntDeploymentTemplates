@@ -78,6 +78,12 @@
     "environment": {
       "type": "string",
       "defaultValue": "Development"
+    },
+    "startIpAddress": {
+      "type": "string"
+    },
+    "endIpAddress": {
+      "type": "string"
     }
   },
   "variables": {
@@ -315,6 +321,43 @@
         "[resourceId('Microsoft.Resources/deployments', 'serverFarm')]",
         "[resourceId('Microsoft.Resources/deployments', 'appConfiguration')]",
         "[resourceId('Microsoft.Resources/deployments', 'productIdentity')]"
+      ]
+    },
+    {
+      "name": "openPorts",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "relativePath": "./AzureSql/openPorts.json"
+        },
+        "parameters": {
+          "productApiDbServerName": {
+            "value": "[parameters('productApiDbServerName')]"
+          },
+          "keyData": {
+            "value": [
+              {
+                "name": "allow-myself",
+                "value": {
+                  "startIpAddress": "[parameters('startIpAddress')]",
+                  "endIpAddress": "[parameters('endIpAddress')]"
+                }
+              },
+              {
+                "name": "product-api",
+                "value": {
+                  "startIpAddress": "[reference('productApi').outputs.webAppVirtualIP.value]",
+                  "endIpAddress": "[reference('productApi').outputs.webAppVirtualIP.value]"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'productApi')]"
       ]
     },
     {

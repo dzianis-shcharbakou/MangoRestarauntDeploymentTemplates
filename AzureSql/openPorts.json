@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "productApiDbServerName": {
+      "type": "string"
+    },
+    "keyData": {
+      "type": "array"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Sql/servers/firewallRules",
+      "apiVersion": "2022-05-01-preview",
+      "name": "[concat(parameters('productApiDbServerName'), '/', parameters('keyData')[copyIndex()].name)]",
+      "properties": "[parameters('keyData')[copyIndex()].value]",
+      "copy": {
+          "name": "ipAddressesCopy",
+          "count": "[length(parameters('keyData'))]"
+      }
+    }
+  ]
+}

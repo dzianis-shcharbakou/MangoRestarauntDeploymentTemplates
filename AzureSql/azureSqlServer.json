@@ -11,12 +11,6 @@
     "productApiDbServerName": {
       "type": "string"
     },
-    "startIpAddress": {
-      "type": "string"
-    },
-    "endIpAddress": {
-      "type": "string"
-    },
     "tags": {
       "type": "object",
       "defaultValue": {
@@ -41,18 +35,6 @@
         "publicNetworkAccess": "Enabled"
       },
       "tags": "[parameters('tags')]"
-    },
-    {
-      "type": "Microsoft.Sql/servers/firewallRules",
-      "apiVersion": "2022-05-01-preview",
-      "name": "[concat(parameters('productApiDbServerName'), '/allow-myself')]",
-      "properties": {
-        "startIpAddress": "[parameters('startIpAddress')]",
-        "endIpAddress": "[parameters('endIpAddress')]"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Sql/servers', parameters('productApiDbServerName'))]"
-      ]
     }
   ],
   "outputs": {
