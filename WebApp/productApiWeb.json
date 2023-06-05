@@ -46,19 +46,17 @@
     },
     {
       "apiVersion": "2022-03-01",
-      "name": "[concat(parameters('sitesMangoProductApiDevName'), '/', 'appsettings_', copyIndex())]",
+      "name": "[concat(parameters('sitesMangoProductApiDevName'), '/', parameters('keyData')[copyIndex()].name)]",
       "type": "Microsoft.Web/sites/config",
       "location": "[resourceGroup().location]",
       "dependsOn": [
           "[resourceId('Microsoft.Web/Sites', parameters('sitesMangoProductApiDevName'))]"
       ],
       "copy": {
-        "name": "appSettingsCopy",
+        "name": "keyValueCopy",
         "count": "[length(parameters('keyData'))]"
       },
-      "properties": {
-        "[parameters('keyData')[copyIndex()].key]": "[parameters('keyData')[copyIndex()].value]"
-      }
+      "properties": "[parameters('keyData')[copyIndex()].value]"
     }
   ]
 }

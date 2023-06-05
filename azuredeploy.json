@@ -292,22 +292,19 @@
           "keyData": {
             "value": [
               {
-                "key": "ASPNETCORE_ENVIRONMENT",
+                "name": "appsettings",
                 "value": {
-                  "value":"[parameters('environment')]"
+                  "ASPNETCORE_ENVIRONMENT": "[parameters('environment')]",
+                  "AZURE_CLIENT_ID": "[reference('productIdentity').outputs.assignedIdentityClientId.value]"
                 }
               },
               {
-                "key": "AZURE_CLIENT_ID",
+                "name": "connectionstrings",
                 "value": {
-                  "value": "[reference('productIdentity').outputs.assignedIdentityClientId.value]"
-                }
-              },
-              {
-                "key": "AppConfigConnectionString",
-                "value": {
-                  "value": "[reference('appConfiguration').outputs.connectionString.value]",
-                  "type": "Custom"
+                  "AppConfigConnectionString": {
+                    "value": "[reference('appConfiguration').outputs.connectionString.value]",
+                    "type": "Custom"
+                  }
                 }
               }
             ]
