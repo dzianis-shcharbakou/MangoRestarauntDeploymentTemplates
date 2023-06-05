@@ -31,6 +31,10 @@
     "assignedIdentityClientId": {
       "type": "string",
       "value": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('productIdentityName'))).clientId]"
+    },
+    "assignedIdentityObjectId": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('productIdentityName'))).objectId]"
     }
   }
 }

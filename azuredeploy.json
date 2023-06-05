@@ -336,8 +336,8 @@
           "mangoRestaurantKvName": {
             "value": "[parameters('vaultName')]"
           },
-          "assignedIdentityClientId": {
-            "value": "[reference('productIdentity').outputs.assignedIdentityClientId.value]"
+          "assignedIdentityObjectId": {
+            "value": "[reference('productIdentity').outputs.assignedIdentityObjectId.value]"
           }
         }
       },
