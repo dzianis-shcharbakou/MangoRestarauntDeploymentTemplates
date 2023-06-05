@@ -11,26 +11,26 @@
   },
   "resources": [
     {
-    "type": "Microsoft.KeyVault/vaults/accessPolicies",
-    "apiVersion": "2022-07-01",
-    "name": "[concat(parameters('mangoRestaurantKvName'), '/add')]",
-    "dependsOn": [
-        "[resourceId('Microsoft.KeyVault/vaults', parameters('mangoRestaurantKvName'))]"
-    ],
-    "properties": {
+      "type": "Microsoft.KeyVault/vaults/accessPolicies",
+      "apiVersion": "2022-07-01",
+      "name": "[concat(parameters('mangoRestaurantKvName'), '/add')]",
+      "dependsOn": [
+          "[resourceId('Microsoft.KeyVault/vaults', parameters('mangoRestaurantKvName'))]"
+      ],
+      "properties": {
         "accessPolicies": [
-            {
-                "tenantId": "[subscription().tenantId]",
-                "objectId": "[reference(parameters('assignedIdentityClientId')).principalId]",
-                "permissions": {
-                    "secrets": [
-                        "get",
-                        "list"
-                    ]
-                }
+          {
+            "tenantId": "[subscription().tenantId]",
+            "objectId": "[parameters('assignedIdentityClientId')]",
+            "permissions": {
+              "secrets": [
+                "get",
+                "list"
+              ]
             }
+          }
         ]
+      }
     }
-}
   ]
 }
