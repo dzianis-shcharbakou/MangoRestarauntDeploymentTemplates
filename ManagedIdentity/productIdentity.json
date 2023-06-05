@@ -26,6 +26,12 @@
       "location": "[parameters('location')]",
       "tags": "[parameters('tags')]"
     }
-  ]
+  ],
+  "outputs": {
+    "assignedIdentityClientId": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('productIdentityName'))).clientId]"
+    }
+  }
 }
 

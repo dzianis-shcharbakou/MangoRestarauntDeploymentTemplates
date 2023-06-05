@@ -17,11 +17,8 @@
     "tags": {
       "type": "object"
     },
-    "appConfigConnectionString": {
-      "type": "string"
-    },
-    "environment": {
-      "type": "string"
+    "keyData": {
+      "type": "array"
     }
   },
   "resources": [
@@ -49,29 +46,18 @@
     },
     {
       "apiVersion": "2022-03-01",
-      "name": "[concat(parameters('sitesMangoProductApiDevName'), '/connectionstrings')]",
+      "name": "[concat(parameters('sitesMangoProductApiDevName'), '/', parameters('keyData')[copyIndex()].name)]",
       "type": "Microsoft.Web/sites/config",
       "location": "[resourceGroup().location]",
       "dependsOn": [
           "[resourceId('Microsoft.Web/Sites', parameters('sitesMangoProductApiDevName'))]"
       ],
+      "copy": {
+        "name": "keyValueCopy",
+        "count": "[length(parameters('keyData'))]"
+      },
       "properties": {
-        "AppConfigConnectionString": {
-          "value": "[parameters('appConfigConnectionString')]",
-          "type": "Custom"
-        }
-      }
-    },
-    {
-      "apiVersion": "2022-03-01",
-      "name": "[concat(parameters('sitesMangoProductApiDevName'), '/appsettings')]",
-      "type": "Microsoft.Web/sites/config",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-          "[resourceId('Microsoft.Web/Sites', parameters('sitesMangoProductApiDevName'))]"
-      ],
-      "properties": {
-        "ASPNETCORE_ENVIRONMENT": "[parameters('environment')]"
+        "[parameters('keyData')[copyIndex()].key]": "[parameters('keyData')[copyIndex()].value]"
       }
     }
   ]
