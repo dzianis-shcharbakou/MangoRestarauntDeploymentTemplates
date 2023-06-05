@@ -58,9 +58,7 @@ steps:
     csmFileLink: 'https://raw.githubusercontent.com/whitechapel5991/MangoRestarauntDeploymentTemplates/main/AzureSql/azureSqlServer.json'
     overrideParameters: '-administratorLogin $(administratorLogin) 
 -administratorLoginPassword $(AdministratorDbServerPassword) 
--productApiDbServerName $(productApiDbServerName) 
--startIpAddress  $(startIpAddress) 
--endIpAddress $(endIpAddress)'
+-productApiDbServerName $(productApiDbServerName)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoDbServerTemplates'
     deploymentOutputs: 'dbServerOutputs'
@@ -97,7 +95,9 @@ steps:
 -storageAccountBlobContainerName $(productBlobContainerName) 
 -vaultName $(mangoRestaurantKvName) 
 -administratorDbServerPasswordName $(ADMINISTRATOR_DB_SERVER_LOGIN_PASSWORD_NAME)
--serverConnection ''$(productServerConnectionString)'''
+-serverConnection ''$(productServerConnectionString)''
+-startIpAddress  $(startIpAddress) 
+-endIpAddress $(endIpAddress)'
     deploymentMode: 'Incremental'
     deploymentName: 'DeployMangoTemplates'
     deploymentOutputs: 'armOutputs'
