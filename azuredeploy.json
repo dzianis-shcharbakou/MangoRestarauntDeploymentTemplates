@@ -292,12 +292,12 @@
           "keyData": {
             "value": [
               {
-                "name": "appsettings",
+                "name": "appsettings_1",
                 "key": "ASPNETCORE_ENVIRONMENT",
                 "value": "[parameters('environment')]"
               },
               {
-                "name": "appsettings",
+                "name": "appsettings_2",
                 "key": "AZURE_CLIENT_ID",
                 "value": "[reference('productIdentity').outputs.assignedIdentityClientId.value]"
               },
