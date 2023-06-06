@@ -19,7 +19,7 @@
     },
     "assignmentName": {
       "type": "string",
-      "defaultValue": "[concat('user', newGuid())]"
+      "defaultValue": "[newGuid()]"
     }
   },
   "variables": {
