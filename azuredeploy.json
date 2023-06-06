@@ -324,28 +324,6 @@
       ]
     },
     {
-      "name": "assignManageIdentityToAzureKeyVault",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "relativePath": "./AppConfiguration/azureKeyVaultManagedIdentity.json"
-        },
-        "parameters": {
-          "mangoRestaurantKvName": {
-            "value": "[parameters('vaultName')]"
-          },
-          "assignedIdentityObjectId": {
-            "value": "[reference('productIdentity').outputs.assignedIdentityObjectId.value]"
-          }
-        }
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', 'productIdentity')]"
-      ]
-    },
-    {
       "name": "openPorts",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
