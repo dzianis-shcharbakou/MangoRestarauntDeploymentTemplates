@@ -34,7 +34,7 @@
     },
     "assignedIdentityObjectId": {
       "type": "string",
-      "value": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('productIdentityName'))).objectId]"
+      "value": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('productIdentityName'))).principalId]"
     }
   }
 }
